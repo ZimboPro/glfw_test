@@ -95,7 +95,7 @@ void Functions::Loop()
     }
 
     // link shaders
-    int shaderProgram = glCreateProgram();
+    shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
@@ -117,6 +117,7 @@ void Functions::Loop()
     -0.5f, -0.5f, 0.0f,  // bottom left
     -0.5f,  0.5f, 0.0f   // top left 
 	};
+
 	unsigned int indices[] = {  // note that we start from 0!
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
@@ -130,21 +131,21 @@ void Functions::Loop()
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     // note that this is allowed, the call to glVertexAttribPointer registered this->VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	
 
     // You can unbind the this->VAO afterwards so other this->VAO calls won't accidentally modify this this->VAO, but this rarely happens. Modifying other
     // this->VAOs requires a call to glBindVertexArray anyways so we generally don't unbind this->VAOs (nor this->VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
+    glBindVertexArray(VAO);
+   
+   glUseProgram(shaderProgram);
 
 	while (!glfwWindowShouldClose(this->_win))
 	{
@@ -153,10 +154,9 @@ void Functions::Loop()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		//glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glBindVertexArray(0);
 
 		glfwSwapBuffers(this->_win);
 		glfwPollEvents();
@@ -167,4 +167,22 @@ void Functions::ProcessInput()
 {
 	if (glfwGetKey(this->_win, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(this->_win, true);
+}
+
+void Functions::DrawBlock(int x, int y, int r, int g, int b)
+{
+    float xf = static_cast<float>(x - 400) / 400;
+    float yf = static_cast<float>(y - 300) / 300;
+    float x1 = static_cast<float>(x - 400 + 20) / 400;
+    float y1 = static_cast<float>(y - 300 + 20) / 300;
+    float rf = static_cast<float>(r) / 255;
+    float gf = static_cast<float>(g) / 255;
+    float bf = static_cast<float>(b) / 255;
+    float arr [] = {
+        xf, yf, 0, rf, gf, bf,
+        xf1, yf, 0, rf, gf, bf,
+        xf, yf1, 0, rf, gf, bf
+    }
+    unsigned int va;
+    unsigned int vb;
 }
