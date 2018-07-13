@@ -146,7 +146,7 @@ void Functions::Loop()
 
     glBindVertexArray(VAO);
 
-	shaderProgram = CreateShader(this->vertex, this->fragment );
+	shaderProgram = CreateShader(this->vertex, this->fragment   );
 
     glUseProgram(shaderProgram);
 
