@@ -122,9 +122,7 @@ void Functions::Loop()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
-		//glBindVertexArray(0);
 
 		glfwSwapBuffers(this->_win);
 		glfwPollEvents();
