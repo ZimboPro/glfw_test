@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/Functions.hpp"
+#include "../include/Shaders.hpp"
 
 #include <stdexcept>
 
@@ -24,42 +25,6 @@ Functions::Functions()
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-}
-
-static unsigned int CompileShader(const std::string & source, unsigned int type)
-{
-	unsigned int id = glCreateShader(type);
-	const char * src = source.c_str();
-	glShaderSource(id, 1, &src, NULL); 
-	glCompileShader(id);
-
-	int result;
-	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-	char infoLog[512];
-	if (result == GL_FALSE)
-	{
-		glGetShaderInfoLog(id, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::"<< (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment")  << "::COMPILATION_FAILED\n" << infoLog << std::endl;
-		glDeleteShader(id);
-	}
-	return id;
-}
-
-static unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader)
-{
-	unsigned int program = glCreateProgram();
-	unsigned int vs = CompileShader(vertexShader, GL_VERTEX_SHADER);
-	unsigned int fs = CompileShader(fragmentShader, GL_FRAGMENT_SHADER);
-
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	glLinkProgram(program);
-	glValidateProgram(program);
-
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-	
-	return program;
 }
 
 Functions::Functions(Functions const & src)
@@ -146,7 +111,7 @@ void Functions::Loop()
 
     glBindVertexArray(VAO);
 
-	shaderProgram = CreateShader(this->vertex, this->fragment   );
+	shaderProgram = Shaders::CreateShaderProgam();
 
     glUseProgram(shaderProgram);
 
@@ -183,9 +148,9 @@ void Functions::DrawBlock(int x, int y, int r, int g, int b)
     float bf = static_cast<float>(b) / 255;
     float arr [] = {
         xf, yf, 0, rf, gf, bf,
-        xf1, yf, 0, rf, gf, bf,
-        xf, yf1, 0, rf, gf, bf
-    }
+        x1, yf, 0, rf, gf, bf,
+        xf, y1, 0, rf, gf, bf
+    };
     unsigned int va;
     unsigned int vb;
 }
