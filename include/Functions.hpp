@@ -32,9 +32,9 @@ class Functions {
 		void DrawBlock(int r, int c, int cr, int cg, int cb);
 		unsigned int VAO;
 		unsigned int VBO;
-		int shaderProgram;
+		unsigned int shaderProgram;
 
-		const char * vertex = "#version 330 core\n"
+		const std::string vertex = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "layout (location = 1) in vec3 aCol;\n"
 	"out vec4 ourColor;\n"
@@ -44,7 +44,7 @@ class Functions {
     "   ourColor = aColor;\n"
     "}\0";
 
-		const char * fragment = "#version 330 core\n"
+		const std::string fragment = "#version 330 core\n"
     "out vec4 FragColor;\n"
 	"in vec4 ourColor;\n"
     "void main()\n"

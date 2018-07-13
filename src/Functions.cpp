@@ -26,6 +26,42 @@ Functions::Functions()
 #endif
 }
 
+static unsigned int CompileShader(const std::string & source, unsigned int type)
+{
+	unsigned int id = glCreateShader(type);
+	const char * src = source.c_str();
+	glShaderSource(id, 1, &src, NULL); 
+	glCompileShader(id);
+
+	int result;
+	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+	char infoLog[512];
+	if (result == GL_FALSE)
+	{
+		glGetShaderInfoLog(id, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::"<< (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment")  << "::COMPILATION_FAILED\n" << infoLog << std::endl;
+		glDeleteShader(id);
+	}
+	return id;
+}
+
+static unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader)
+{
+	unsigned int program = glCreateProgram();
+	unsigned int vs = CompileShader(vertexShader, GL_VERTEX_SHADER);
+	unsigned int fs = CompileShader(fragmentShader, GL_FRAGMENT_SHADER);
+
+	glAttachShader(program, vs);
+	glAttachShader(program, fs);
+	glLinkProgram(program);
+	glValidateProgram(program);
+
+	glDeleteShader(vs);
+	glDeleteShader(fs);
+	
+	return program;
+}
+
 Functions::Functions(Functions const & src)
 {
 	*this = src;	
@@ -67,47 +103,7 @@ void Functions::Loop()
 	}
 
 	glViewport(0, 0, 800, 600);
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &this->vertex, NULL);
-    glCompileShader(vertexShader);
 
-    // check for shader compile errors
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-
-    // fragment shader
-    int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &this->fragment, NULL);
-    glCompileShader(fragmentShader);
-
-    // check for shader compile errors
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-
-    // link shaders
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    // check for linking errors
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-    }
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -125,11 +121,13 @@ void Functions::Loop()
 
     glGenVertexArrays(1, &this->VAO);
     glGenBuffers(1, &this->VBO);
+
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(this->VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), vertices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -143,9 +141,14 @@ void Functions::Loop()
 
     // You can unbind the this->VAO afterwards so other this->VAO calls won't accidentally modify this this->VAO, but this rarely happens. Modifying other
     // this->VAOs requires a call to glBindVertexArray anyways so we generally don't unbind this->VAOs (nor this->VBOs) when it's not directly necessary.
+
+
+
     glBindVertexArray(VAO);
-   
-   glUseProgram(shaderProgram);
+
+	shaderProgram = CreateShader(this->vertex, this->fragment );
+
+    glUseProgram(shaderProgram);
 
 	while (!glfwWindowShouldClose(this->_win))
 	{
