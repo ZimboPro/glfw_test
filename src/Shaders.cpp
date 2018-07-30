@@ -1,5 +1,5 @@
-#include "../include/Shaders.hpp"
-#include "../libogd/include/GLFW/glfw3.h"
+#include <Shaders.hpp>
+#include <GLFW/glfw3.h>
 #include <fstream>
 #include <string>
 #include <sstream>

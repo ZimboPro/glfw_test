@@ -2,57 +2,49 @@ cmake_minimum_required (VERSION 3.0)
 
 project(og)
 
-set(EXTERNAL_GLAD_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/libglad)
-
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -framework Cocoa -framework IOKit -framework CoreFoundation -framework CoreVideo")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+include(FetchContent)
 
-set(SOURCE 
-    src/Functions.cpp
-    src/main.cpp
-    ${EXTERNAL_GLAD_INSTALL_LOCATION}/src/glad.c)
+FetchContent_Declare(
+    glfw
+    URL "https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip"
+)
+
+FetchContent_Declare(
+    glad
+    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+    GIT_TAG origin/c
+)
+
+FetchContent_GetProperties(glfw)
+if(NOT glfw_POPULATED)
+  FetchContent_Populate(glfw)
+  add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
+endif()
+
+FetchContent_GetProperties(glad)
+if(NOT glad_POPULATED)
+  FetchContent_Populate(glad)
+endif()
+
+include_directories(${glad_SOURCE_DIR}/include)
+include_directories(${glfw_SOURCE_DIR}/include)
+include_directories(include)
 
 add_executable(og
-    ${SOURCE}
+    src/Functions.cpp
+    src/main.cpp
+    src/Shaders.cpp
+    ${glad_SOURCE_DIR}/src/glad.c
 )
 
-include(ExternalProject)
+target_link_libraries(og glfw)
 
-set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/libogd)
-
-ExternalProject_Add(libogsrc
-  URL "https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip"
-  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION} -DBUILD_SHARED_LIBS=OFF
-)
-
-ExternalProject_Add(libgladsrc
-    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-    CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF
-    INSTALL_COMMAND make
-    COMMAND mkdir -p ${EXTERNAL_GLAD_INSTALL_LOCATION}
-    COMMAND cp -a include ${EXTERNAL_GLAD_INSTALL_LOCATION}
-    COMMAND cp libglad.a ${EXTERNAL_GLAD_INSTALL_LOCATION}
-    COMMAND cp -a src ${EXTERNAL_GLAD_INSTALL_LOCATION}
-)
-
-include_directories(${EXTERNAL_INSTALL_LOCATION})
-include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-
-include_directories(${EXTERNAL_GLAD_INSTALL_LOCATION})
-include_directories(${EXTERNAL_GLAD_INSTALL_LOCATION}/include)
-
-add_dependencies(og libogsrc)
-add_dependencies(og libgladsrc)
-
-target_link_libraries(og ${EXTERNAL_INSTALL_LOCATION}/lib/libglfw3.a)
 find_package(OpenGL REQUIRED)
-if (OPENGL_FOUND)
-    target_link_libraries(og ${OPENGL_gl_LIBRARY})
-endif()
+target_link_libraries(og ${OPENGL_gl_LIBRARY})
+
 if (OPENGL_GLU_FOUND)
     target_link_libraries(og ${OPENGL_glu_LIBRARY})
 endif()

@@ -13,8 +13,8 @@
 #ifndef		FUNCTIONS_HPP
 # define	FUNCTIONS_HPP
 
-#include "../libglad/include/glad/glad.h"
-#include "../libogd/include/GLFW/glfw3.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 
 class Functions {
