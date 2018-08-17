@@ -5,9 +5,22 @@
 #include <sstream>
 #include <stdexcept>
 
-Shaders::Shaders(){}
+Shaders::Shaders(const std::string & vertexpath, const std::string & fragpath)
+{
+	std::string const vertexShader = GetSource(vertexpath);
+    std::string const fragmentShader = GetSource(fragpath);
+    if(vertexShader.size() == 0 || fragmentShader.size() == 0)
+        throw std::logic_error("Empty shader files");
+	
+    this->_ID = glCreateProgram();
+	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader.c_str());
+	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader.c_str());
 
-Shaders::~Shaders(){}
+	CreateShaderProgam(vs,fs);
+}
+
+Shaders::~Shaders()
+{}
 
 std::string const & Shaders::GetSource(const std::string & path)
 {
@@ -16,44 +29,30 @@ std::string const & Shaders::GetSource(const std::string & path)
     if (!file.good())
     {
         std::cout << path << " does not exist" << std::endl;
-        return "";
+        return NULL;
     }
 
     std::string line;
     std::stringstream ss;
     while (getline(file, line))
-    {
-        ss << line << "\n";
-    }
+        ss << line << std::endl;
     return ss.str();
 }
 
-unsigned int Shaders::CreateShaderProgam()
+void Shaders::CreateShaderProgam(int vs, int fs)
 {
-    
-    std::string const vertexShader = GetSource("Resources/VertexShaders/Basic.vshader");
-    std::string const fragmentShader = GetSource("Resources/FragmentShaders/Basic.fshader");
-    if(vertexShader.size() == 0 || fragmentShader.size() == 0)
-        return 0;
-    unsigned int program = glCreateProgram();
-	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
-	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
-
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	glLinkProgram(program);
-	glValidateProgram(program);
+    glAttachShader(this->_ID, vs);
+	glAttachShader(this->_ID, fs);
+	glLinkProgram(this->_ID);
+	glValidateProgram(this->_ID);
 
 	glDeleteShader(vs);
 	glDeleteShader(fs);
-	
-	return program;
 }
 
-unsigned int Shaders::CompileShader(unsigned int type, const std::string & source)
+unsigned int Shaders::CompileShader(unsigned int type, const char * src)
 {
     unsigned int id = glCreateShader(type);
-	const char * src = source.c_str();
 	glShaderSource(id, 1, &src, NULL); 
 	glCompileShader(id);
 
@@ -68,4 +67,29 @@ unsigned int Shaders::CompileShader(unsigned int type, const std::string & sourc
         return 0;
 	}
 	return id;
+}
+
+inline void Shaders::setBool(const std::string &name, bool value) const
+{
+	glUniform1i(glGetUniformLocation(this->_ID, name.c_str()), (int)value);
+}
+
+inline void Shaders::setInt(const std::string &name, int value) const
+{
+	glUniform1i(glGetUniformLocation(this->_ID, name.c_str()), value);
+}
+
+inline void Shaders::setFloat(const std::string &name, float value) const
+{
+	glUniform1f(glGetUniformLocation(this->_ID, name.c_str()), value);
+}
+
+void Shaders::use()
+{
+	glUseProgram(this->_ID);
+}
+
+inline unsigned int Shaders::ID() const
+{
+	return this->_ID;
 }

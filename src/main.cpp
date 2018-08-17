@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/Functions.hpp"
+#include <Functions.hpp>
 
 int main(void)
 {

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Functions.hpp"
-#include "../include/Shaders.hpp"
+#include <Functions.hpp>
+#include <Shaders.hpp>
 
 #include <stdexcept>
 
@@ -110,10 +110,9 @@ void Functions::Loop()
 
 
     glBindVertexArray(VAO);
-
-	shaderProgram = Shaders::CreateShaderProgam();
-
-    glUseProgram(shaderProgram);
+    
+    Shaders basic("/Volumes/LESLIE_DJ/2nd_Year/temp/glfw_test/Resoures/VertexShaders/Basic.vshader", "/Volumes/LESLIE_DJ/2nd_Year/temp/glfw_test/Resoures/FragmentShaders/Basic.fshader");
+    basic.use();
 
 	while (!glfwWindowShouldClose(this->_win))
 	{
