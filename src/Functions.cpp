@@ -14,6 +14,10 @@
 #include <Shaders.hpp>
 #include <Texture.hpp>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <stdexcept>
 
 Functions::Functions()
@@ -70,7 +74,7 @@ void Functions::Loop()
 
 	glViewport(0, 0, 800, 600);
     
-    Shaders basic("..//Resoures//VertexShaders//Basic.vshader", "..//Resoures//FragmentShaders//Basic.fshader");
+    Shaders basic("..//Resources//VertexShaders//Basic.vshader", "..//Resources//FragmentShaders//Basic.fshader");
 
     float vertices[] = {
         // positions          // colors           // texture coords
@@ -106,8 +110,8 @@ void Functions::Loop()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    Texture texture("wall.jpg");
-    Texture texture2("awesomeface.png");
+    Texture texture("..//Resources//Textures//wall.jpg");
+    Texture texture2("..//Resources//Textures//awesomeface.png");
     basic.use();
     basic.setInt("texture1", 0);
     basic.setInt("texture2", 1);
