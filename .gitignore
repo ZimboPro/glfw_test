@@ -53,3 +53,5 @@ libogd/
 libogsrc-prefix/
 libgladsrc-prefix/
 libglad/
+
+._*
