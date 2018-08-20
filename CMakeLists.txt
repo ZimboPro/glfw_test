@@ -42,12 +42,33 @@ if(NOT std_image_POPULATED)
   FetchContent_Populate(std_image)
 endif()
 
-include_directories(${glad_SOURCE_DIR}/include ${glfw_SOURCE_DIR}/include ${std_image_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include)
+FetchContent_Declare(
+    glm
+    URL https://github.com/g-truc/glm/archive/0.9.9.0.zip
+)
 
-add_executable(og
+FetchContent_GetProperties(glm)
+
+if(NOT glm_POPULATED)
+  FetchContent_Populate(glm)
+endif()
+
+include_directories(
+    ${glad_SOURCE_DIR}/include 
+    ${glfw_SOURCE_DIR}/include 
+    ${std_image_SOURCE_DIR} 
+    ${glm_SOURCE_DIR} 
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+add_executable(
+    og
+
     src/Functions.cpp
     src/main.cpp
     src/Shaders.cpp
+    src/Texture.cpp
+
     ${glad_SOURCE_DIR}/src/glad.c
 )
 
