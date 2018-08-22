@@ -33,6 +33,8 @@ class Functions {
 		unsigned int VAO;
 		unsigned int VBO;
 		unsigned int shaderProgram;
+		unsigned int _width;
+		unsigned int _height;
 };
 
 #endif

@@ -1,13 +1,13 @@
-#ifndef TEXTURE_HPP
-#define TEXTURE_HPP
+#ifndef TEXTUREIMAGES_HPP
+#define TEXTUREIMAGES_HPP
 
 #include <iostream>
 
-class Texture
+class TextureImages
 {
     public:
-        Texture(const std::string & file);
-        ~Texture();
+        TextureImages(const std::string & file);
+        ~TextureImages();
 
         void Load();
         void Bind();

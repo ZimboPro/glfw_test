@@ -55,3 +55,6 @@ libgladsrc-prefix/
 libglad/
 
 ._*
+*.mtl
+*.obj
+*.png
