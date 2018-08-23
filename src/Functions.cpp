@@ -107,7 +107,8 @@ void Functions::Loop()
     // Shaders cam(R"(../Resources/VertexShaders/CameraVert.glsl)", R"(../Resources/FragmentShaders/CameraFrag.glsl)");
     Shaders shader(R"(../Resources/VertexShaders/MeshVert.glsl)", R"(../Resources/FragmentShaders/MeshFrag.glsl)");
 
-    Model model(R"(../Resources/Assets/goomba.obj)");
+    Model model(R"(../Resources/Assets/iron_block.obj)");
+    Model model2(R"(../Resources/Assets/mario_walking_1.obj)");
     // float vertices[] = {
     //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
     //      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -195,7 +196,7 @@ void Functions::Loop()
     // unsigned int transformLoc = glGetUniformLocation(basic.ID(), "transform");
     // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     
-
+    model2.NewPostionAndScale(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f));
 	while (!glfwWindowShouldClose(this->_win))
 	{
         float currentFrame = glfwGetTime();
@@ -221,11 +222,14 @@ void Functions::Loop()
         glm::mat4 view = camera.GetViewMatrix();
         shader.setMat4("view", view);
 
-        glm::mat4 models;
-        models = glm::translate(models, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-        models = glm::scale(models, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-        shader.setMat4("model", models);
-        model.Draw(shader);
+        model.NewPostionAndScale(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f));
+        model.DrawAndSet(shader, "model");
+
+        //need to reset the matrix
+        model2.DrawAndSet(shader, "model");
+
+        model.NewPostionAndScale(glm::vec3(-7.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f));
+        model.DrawAndSet(shader, "model");
 
         // glBindVertexArray(VAO);
         // for (unsigned int i = 0; i < 10; i++)

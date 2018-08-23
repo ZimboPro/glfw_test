@@ -1,18 +1,51 @@
 #include <Models.hpp>
 #include <Shaders.hpp>
 #include <stb_image.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
-Model::Model(char *path, bool gamma)
+Model::Model(char *path, const glm::vec3 & position, const glm::vec3 & scale, bool gamma)
 {
+    this->_transformationMatrix = glm::mat4(1.0f);
+    Position(position);
+    Scale(scale);
     this->_gammaCorrection = gamma;
     loadModel(path);
 }
 
-void Model::Draw(Shaders shader)
+void Model::Position(const glm::vec3 & position)
+{
+    this->_transformationMatrix = glm::translate(this->_transformationMatrix, position);
+}
+
+void Model::Scale(const glm::vec3 & scale)
+{
+    this->_transformationMatrix = glm::scale(this->_transformationMatrix, scale);
+}
+
+void Model::Draw(Shaders & shader)
 {
     for (size_t i = 0; i < this->_meshes.size(); i++)
         this->_meshes[i].Draw(shader);
+}
+
+void Model::DrawAndSet(Shaders & shader, const std::string & name)
+{
+    shader.setMat4(name, this->_transformationMatrix);
+    Draw(shader);
+}
+
+void Model::Reset()
+{
+    this->_transformationMatrix = glm::mat4(1.0f);
+}
+
+void Model::NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale)
+{
+    Reset();
+    Position(position);
+    Scale(scale);
 }
 
 void Model::loadModel(std::string path)
