@@ -41,11 +41,22 @@ void Model::Reset()
     this->_transformationMatrix = glm::mat4(1.0f);
 }
 
-void Model::NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale)
+void Model::NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale, const float & degrees)
 {
     Reset();
     Position(position);
     Scale(scale);
+    Rotate(degrees);
+}
+
+void Model::NewPostionAndScale(const glm::vec3 & position, const float & scale, const float & degrees)
+{
+    NewPostionAndScale(position, glm::vec3(scale), degrees);
+}
+
+void Model::Rotate(const float & degrees)
+{
+    this->_transformationMatrix = glm::rotate(this->_transformationMatrix, glm::radians(degrees), glm::vec3(0, 1, 0));
 }
 
 void Model::loadModel(std::string path)

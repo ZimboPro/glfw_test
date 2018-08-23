@@ -76,3 +76,12 @@ void Camera::updateCameraVectors()
     Right = glm::normalize(glm::cross(Front, WorldUp));
     Up    = glm::normalize(glm::cross(Right, Front));
 }
+
+void Camera::LookAt(const glm::vec3 & point)
+{
+    Front = glm::normalize(point - Position);
+    Right = glm::normalize(glm::cross(Front, WorldUp));
+    Pitch = glm::degrees(asin(Front.y));
+    Yaw = glm::degrees(acos(Front.x / cos(glm::radians(Pitch))));
+    Up  = glm::normalize(glm::cross(Right, Front));
+}

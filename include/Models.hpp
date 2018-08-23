@@ -21,7 +21,9 @@ class Model
         void Position(const glm::vec3 & position);
         void Scale(const glm::vec3 & scale);
         void Reset();
-        void NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale);
+        void Rotate(const float & degrees);
+        void NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale, const float & degrees = 0);
+        void NewPostionAndScale(const glm::vec3 & position, const float & scale, const float & degrees = 0);
 
     private:
         glm::mat4 _transformationMatrix;

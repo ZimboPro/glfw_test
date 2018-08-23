@@ -24,7 +24,7 @@
 
 #include <stdexcept>
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(30.0f, 30.0f, 30.0f));
 bool firstMouse = true;
 float lastX = 800 / 2.0f;
 float lastY = 600 / 2.0f;
@@ -109,6 +109,7 @@ void Functions::Loop()
 
     Model model(R"(../Resources/Assets/iron_block.obj)");
     Model model2(R"(../Resources/Assets/mario_walking_1.obj)");
+    camera.LookAt(glm::vec3(0));
     // float vertices[] = {
     //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
     //      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -196,7 +197,7 @@ void Functions::Loop()
     // unsigned int transformLoc = glGetUniformLocation(basic.ID(), "transform");
     // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     
-    model2.NewPostionAndScale(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f));
+    model2.NewPostionAndScale(glm::vec3(5.0f, 0.0f, 0.0f), 0.2f, 45);
 	while (!glfwWindowShouldClose(this->_win))
 	{
         float currentFrame = glfwGetTime();
