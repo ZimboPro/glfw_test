@@ -15,13 +15,14 @@ class Model
     public:
         /*  Functions   */
         Model(char *path, const glm::vec3 & postion = glm::vec3(0.0f), const glm::vec3 & scale = glm::vec3(1.0f) ,bool gama = false);
-        void Draw(Shaders & shader);	
-        void Translate(const glm::vec3 & translate);
-        void DrawAndSet(Shaders & shader, const std::string & name);
+        void Draw(const Shaders & shader);	
+        void DrawAndSet(const Shaders & shader, const std::string & name);
         void Position(const glm::vec3 & position);
         void Scale(const glm::vec3 & scale);
+        void Scale(const float & scale);
         void Reset();
         void Rotate(const float & degrees);
+        void DrawAt(const Shaders & shader, const float & x, const float & y, const float & z = 0, const float & degree = 0);
         void NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale, const float & degrees = 0);
         void NewPostionAndScale(const glm::vec3 & position, const float & scale, const float & degrees = 0);
 
@@ -31,6 +32,7 @@ class Model
         std::vector<Texture> _textureLoaded;
         std::string _directory;
         bool _gammaCorrection;
+        glm::vec3 _scale;
 
         void loadModel(std::string path);
         void processNode(aiNode *node, const aiScene *scene);

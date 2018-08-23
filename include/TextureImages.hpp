@@ -9,9 +9,9 @@ class TextureImages
         TextureImages(const std::string & file);
         ~TextureImages();
 
-        void Load();
         void Bind();
     private:
+        void Load();
         std::string _file;
         unsigned int _ID;
         unsigned char * _data;

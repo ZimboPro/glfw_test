@@ -21,16 +21,22 @@ void Model::Position(const glm::vec3 & position)
 
 void Model::Scale(const glm::vec3 & scale)
 {
+    this->_scale = scale;
     this->_transformationMatrix = glm::scale(this->_transformationMatrix, scale);
 }
 
-void Model::Draw(Shaders & shader)
+void Model::Scale(const float & scale)
+{
+    this->_scale = glm::vec3(scale);
+}
+
+void Model::Draw(const Shaders & shader)
 {
     for (size_t i = 0; i < this->_meshes.size(); i++)
         this->_meshes[i].Draw(shader);
 }
 
-void Model::DrawAndSet(Shaders & shader, const std::string & name)
+void Model::DrawAndSet(const Shaders & shader, const std::string & name)
 {
     shader.setMat4(name, this->_transformationMatrix);
     Draw(shader);
@@ -57,6 +63,15 @@ void Model::NewPostionAndScale(const glm::vec3 & position, const float & scale, 
 void Model::Rotate(const float & degrees)
 {
     this->_transformationMatrix = glm::rotate(this->_transformationMatrix, glm::radians(degrees), glm::vec3(0, 1, 0));
+}
+
+void Model::DrawAt(const Shaders & shader, const float & x, const float & y, const float & z, const float & degree)
+{
+    Reset();
+    Position(glm::vec3(x, z, y));
+    Scale(this->_scale);
+    Rotate(degree);
+    DrawAndSet(shader, "model");
 }
 
 void Model::loadModel(std::string path)

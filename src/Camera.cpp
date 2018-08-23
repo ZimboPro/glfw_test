@@ -1,4 +1,5 @@
 #include <Camera.hpp>
+#include <iostream>
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
@@ -82,6 +83,6 @@ void Camera::LookAt(const glm::vec3 & point)
     Front = glm::normalize(point - Position);
     Right = glm::normalize(glm::cross(Front, WorldUp));
     Pitch = glm::degrees(asin(Front.y));
-    Yaw = glm::degrees(acos(Front.x / cos(glm::radians(Pitch))));
+    Yaw = -glm::degrees(acos(Front.x / cos(glm::radians(Pitch))));
     Up  = glm::normalize(glm::cross(Right, Front));
 }
