@@ -95,6 +95,7 @@ add_executable(
     src/Mesh.cpp
     src/Models.cpp
     src/Image.cpp
+    src/MultipleOfModel.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )

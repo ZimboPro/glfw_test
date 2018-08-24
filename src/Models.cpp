@@ -28,6 +28,8 @@ void Model::Scale(const glm::vec3 & scale)
 void Model::Scale(const float & scale)
 {
     this->_scale = glm::vec3(scale);
+    this->_transformationMatrix = glm::scale(this->_transformationMatrix, this->_scale);
+
 }
 
 void Model::Draw(const Shaders & shader)
