@@ -29,10 +29,8 @@ class Functions {
 	private:
 		GLFWwindow * _win;
 		void ProcessInput();
-		void DrawBlock(int r, int c, int cr, int cg, int cb);
 		unsigned int VAO;
 		unsigned int VBO;
-		unsigned int shaderProgram;
 		unsigned int _width;
 		unsigned int _height;
 };

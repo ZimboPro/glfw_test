@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <glm/gtc/type_ptr.hpp>
 
 Shaders::Shaders(const std::string & vertexpath, const std::string & fragpath)
 {
@@ -137,4 +138,9 @@ void Shaders::setMat3(const std::string &name, const glm::mat3 &mat) const
 void Shaders::setMat4(const std::string &name, const glm::mat4 &mat) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(this->_ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shaders::setMat4Ptr(const std::string &name, const glm::mat4 &mat) const
+{
+	glUniformMatrix4fv(glGetUniformLocation(this->_ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
 }

@@ -94,6 +94,7 @@ add_executable(
     src/Camera.cpp
     src/Mesh.cpp
     src/Models.cpp
+    src/Image.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )
