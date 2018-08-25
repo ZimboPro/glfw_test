@@ -16,7 +16,8 @@ class MultipleOfModel
         MultipleOfModel(Model & model);
         ~MultipleOfModel();
 
-        void Draw(Shaders & shader, glm::mat4 perspective, glm::mat4 view);
+        void DrawAt(Shaders & shader, glm::mat4 perspective, glm::mat4 view);
+        void Draw(Shaders & shader);
         void AddPoint(float x, float y, float z = 0, float degree = 0);
         void AddPoint(Point point);
 

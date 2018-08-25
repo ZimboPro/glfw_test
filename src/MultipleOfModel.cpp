@@ -51,11 +51,20 @@ void MultipleOfModel::DeletePoint(float x, float y, float z)
     DeletePoint(Point{x, y, z, 0});
 }
 
-void MultipleOfModel::Draw(Shaders & shader, glm::mat4 perspective, glm::mat4 view)
+void MultipleOfModel::DrawAt(Shaders & shader, glm::mat4 perspective, glm::mat4 view)
 {
     shader.use();
     shader.setMat4("projection", perspective);
     shader.setMat4("view", view);
+    for (size_t i = 0; i < this->_points.size(); i++)
+    {
+        Point temp = this->_points[i];
+        this->_model->DrawAt(shader, temp._x, temp._z, temp._y, temp._degree);
+    }
+}
+
+void MultipleOfModel::Draw(Shaders & shader)
+{
     for (size_t i = 0; i < this->_points.size(); i++)
     {
         Point temp = this->_points[i];
