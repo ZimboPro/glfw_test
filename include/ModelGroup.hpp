@@ -1,7 +1,9 @@
 #ifndef MODELGROUP_HPP
 #define MODELGROUP_HPP
 
-class MultipleOfModel;
+#include <vector>
+
+#include <MultipleOfModel.hpp>
 class Shaders;
 
 class ModelGroup
@@ -10,7 +12,8 @@ class ModelGroup
         ModelGroup();
         ~ModelGroup();
 
-        void AddModel(MultipleOfModel & model);
+        std::vector<MultipleOfModel> _models;
+        void Draw(Shaders & shader);
         
 };
 

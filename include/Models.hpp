@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 #include <Structs.hpp>
 #include <Mesh.hpp>
+#include <iostream>
 
 class Shaders;
 

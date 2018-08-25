@@ -12,7 +12,7 @@ class Camera;
 class MultipleOfModel
 {
     public:
-        MultipleOfModel(const std::string & path, const float & scale);
+        MultipleOfModel(char * path, const float & scale);
         MultipleOfModel(Model & model);
         ~MultipleOfModel();
 

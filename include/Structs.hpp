@@ -19,12 +19,12 @@ struct Texture
     std::string _path;
 };
 
-struct Point
+typedef struct Points
 {
     float _x;
     float _y;
     float _z;
     float _degree;
-}
+} Point;
 
 #endif
