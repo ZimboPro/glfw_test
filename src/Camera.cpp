@@ -1,5 +1,6 @@
 #include <Camera.hpp>
 #include <iostream>
+#include <Shaders.hpp>
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
@@ -85,4 +86,12 @@ void Camera::LookAt(const glm::vec3 & point)
     Pitch = glm::degrees(asin(Front.y));
     Yaw = -glm::degrees(acos(Front.x / cos(glm::radians(Pitch))));
     Up  = glm::normalize(glm::cross(Right, Front));
+}
+
+void Camera::SetShaderView(Shaders & shader, int width, int height)
+{
+    glm::mat4 projection = glm::perspective(glm::radians(this->Zoom), (float)width / (float)height, 0.1f, 100.0f);
+    shader.use();
+    shader.setMat4("projection", projection);
+    shader.setMat4("view", GetViewMatrix());
 }

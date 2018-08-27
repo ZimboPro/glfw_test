@@ -67,6 +67,11 @@ void Model::Rotate(const float & degrees)
     this->_transformationMatrix = glm::rotate(this->_transformationMatrix, glm::radians(degrees), glm::vec3(0, 1, 0));
 }
 
+void Model::Rotate(const float & degrees, const glm::vec3 & axis)
+{
+    this->_transformationMatrix = glm::rotate(this->_transformationMatrix, glm::radians(degrees), axis);
+}
+
 void Model::DrawAt(const Shaders & shader, const float & x, const float & y, const float & z, const float & degree)
 {
     Reset();

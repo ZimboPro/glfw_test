@@ -16,6 +16,9 @@
 #include <Camera.hpp>
 #include <Models.hpp>
 #include <Image.hpp>
+#include <MultipleOfModel.hpp>
+#include <ModelGroup.hpp>
+#include <Font.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -68,6 +71,9 @@ Functions::Functions()
 
     // tell GLFW to capture our mouse
     glfwSetInputMode(this->_win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    //doesn't cap fps
+    glfwSwapInterval(0.0);
 	
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -103,15 +109,50 @@ Functions & Functions::operator=(Functions const & src)
 
 void Functions::Loop()
 {
-    // Shaders basic(R"(../Resources/VertexShaders/Basic.vshader)", R"(../Resources/FragmentShaders/Basic.fshader)");
-    
-    // Shaders cam(R"(../Resources/VertexShaders/CameraVert.glsl)", R"(../Resources/FragmentShaders/CameraFrag.glsl)");
-    // Shaders shader(R"(../Resources/VertexShaders/ImageVert.glsl)", R"(../Resources/FragmentShaders/ImageFrag.glsl)");
+    // Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
     Shaders modelshader(R"(../Resources/VertexShaders/MeshVert.glsl)", R"(../Resources/FragmentShaders/MeshFrag.glsl)");
-    Shaders darkshader(R"(../Resources/VertexShaders/DarkerMeshVert.glsl)", R"(../Resources/FragmentShaders/DarkerMeshFrag.glsl)");
 
-    Model model(R"(../Resources/Assets/iron_block.obj)");
-    Model model2(R"(../Resources/Assets/mario_walking_1.obj)");
+    // Model model();
+    Model model2(R"(../Resources/Assets/iron_block.obj)");
+
+    // model.Scale(0.2f);
+    // MultipleOfModel wall(R"(../Resources/Assets/iron_block.obj)", 0.2f);
+    // wall.AddPoint(0, 0);
+    // wall.AddPoint(7, 0);
+    // wall.AddPoint(-7, 0);
+    // wall.AddPoint(14, 0);
+    // wall.AddPoint(-14, 0);
+    // wall.AddPoint(21, 0);
+    // wall.AddPoint(-21, 0);
+    // wall.AddPoint(28, 0);
+    // wall.AddPoint(-28, 0);
+    // wall.AddPoint(35, 0);
+    // wall.AddPoint(-35, 0);
+
+    // wall.AddPoint(0, 15);
+    // wall.AddPoint(7, 15);
+    // wall.AddPoint(-7, 15);
+    // wall.AddPoint(14, 15);
+    // wall.AddPoint(-14, 15);
+    // wall.AddPoint(21, 15);
+    // wall.AddPoint(-21, 15);
+    // wall.AddPoint(28, 15);
+    // wall.AddPoint(-28, 15);
+    // wall.AddPoint(35, 15);
+    // wall.AddPoint(-35, 15);
+
+    // wall.AddPoint(0, -15);
+    // wall.AddPoint(7, -15);
+    // wall.AddPoint(-7, -15);
+    // wall.AddPoint(14, -15);
+    // wall.AddPoint(-14, -15);
+    // wall.AddPoint(21, -15);
+    // wall.AddPoint(-21, -15);
+    // wall.AddPoint(28, -15);
+    // wall.AddPoint(-28, -15);
+    // wall.AddPoint(35, -15);
+    // wall.AddPoint(-35, -15);
+
     camera.LookAt(glm::vec3(0));
 
     // TextureImages texture("awesomeface.png");
@@ -119,7 +160,11 @@ void Functions::Loop()
     // Image image(200, 150, 400, 300, &texture, this->_width, this->_height);
     
     
-    model2.NewPostionAndScale(glm::vec3(5.0f, 0.0f, -10.0f), 0.2f, 45);
+    // model2.NewPostionAndScale(glm::vec3(5.0f, 0.0f, -10.0f), 0.2f, 45);
+    model2.NewPostionAndScale(glm::vec3(0.0f, 0.0f, 0.0f), 0.2f, 0);
+    float elapsed = glfwGetTime();
+    int fps = 0;
+    Font::Load();
 	while (!glfwWindowShouldClose(this->_win))
 	{
         float currentFrame = glfwGetTime();
@@ -131,28 +176,31 @@ void Functions::Loop()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)this->_width / (float)this->_height, 0.1f, 100.0f);
 
-        // camera/view transformation
-        glm::mat4 view = camera.GetViewMatrix();
-        modelshader.use();
-        modelshader.setMat4("projection", projection);
-        modelshader.setMat4("view", view);
-
-        model.NewPostionAndScale(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.2f, 0.2f, 0.2f));
-        model.DrawAndSet(modelshader, "model");
+        camera.SetShaderView(modelshader, this->_width, this->_height);
+        modelshader.setVec3("light", glm::vec3(-30, 30, 30));
 
         //need to reset the matrix
-        model2.DrawAndSet(modelshader, "model");
+        // model2.DrawAndSet(modelshader, "model");
+        // wall.Draw(modelshader);
 
-        darkshader.use();
-        darkshader.setMat4("projection", projection);
-        darkshader.setMat4("view", view);
+        Font::Draw(modelshader, camera, this->_width, this->_height, "m", 0, 0, 0.2);
 
-        model.NewPostionAndScale(glm::vec3(-7.0f, 0.0f, -10.0f), glm::vec3(0.2f, 0.2f, 0.2f));
-        model.DrawAndSet(darkshader, "model");
+        // darkshader.use();
+        // darkshader.setMat4("projection", projection);
+        // darkshader.setMat4("view", view);
+
+        // model.NewPostionAndScale(glm::vec3(-7.0f, 0.0f, -10.0f), glm::vec3(0.2f, 0.2f, 0.2f));
+        // model.DrawAndSet(darkshader, "model");
 
         // image.Draw(shader, camera);
+        fps++;
+        if (currentFrame - elapsed >= 1.0f)
+        {
+            std::cout << fps << std::endl;
+            elapsed = glfwGetTime();
+            fps = 0;
+        }
 
 		glfwSwapBuffers(this->_win);
 		glfwPollEvents();

@@ -7,16 +7,19 @@ MultipleOfModel::MultipleOfModel(char * path, const float & scale)
 {
     this->_model = new Model(path);
     this->_model->Scale(scale);
+    this->_delete = true;
 }
 
 MultipleOfModel::MultipleOfModel(Model & model)
 {
     this->_model = &model;
+    this->_delete = false;
 }
 
 MultipleOfModel::~MultipleOfModel()
 {
-    delete this->_model;
+    if (this->_delete)
+        delete this->_model;
     this->_points.clear();
 }
 
@@ -59,7 +62,7 @@ void MultipleOfModel::DrawAt(Shaders & shader, glm::mat4 perspective, glm::mat4 
     for (size_t i = 0; i < this->_points.size(); i++)
     {
         Point temp = this->_points[i];
-        this->_model->DrawAt(shader, temp._x, temp._z, temp._y, temp._degree);
+        this->_model->DrawAt(shader, temp._x, temp._y, temp._z, temp._degree);
     }
 }
 
@@ -68,6 +71,6 @@ void MultipleOfModel::Draw(Shaders & shader)
     for (size_t i = 0; i < this->_points.size(); i++)
     {
         Point temp = this->_points[i];
-        this->_model->DrawAt(shader, temp._x, temp._z, temp._y, temp._degree);
+        this->_model->DrawAt(shader, temp._x, temp._y, temp._z, temp._degree);
     }
 }

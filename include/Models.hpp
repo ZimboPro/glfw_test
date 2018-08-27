@@ -23,6 +23,7 @@ class Model
         void Scale(const float & scale);
         void Reset();
         void Rotate(const float & degrees);
+        void Rotate(const float & degrees, const glm::vec3 & axis);
         void DrawAt(const Shaders & shader, const float & x, const float & y, const float & z = 0, const float & degree = 0);
         void NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale, const float & degrees = 0);
         void NewPostionAndScale(const glm::vec3 & position, const float & scale, const float & degrees = 0);

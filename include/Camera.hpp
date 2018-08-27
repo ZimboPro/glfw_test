@@ -7,6 +7,8 @@
 
 #include <vector>
 
+class Shaders;
+
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 enum Camera_Movement {
     FORWARD,
@@ -49,6 +51,7 @@ class Camera
         void ProcessKeyboard(Camera_Movement direction, float deltaTime);
         void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
         void ProcessMouseScroll(float yoffset);
+        void SetShaderView(Shaders & shader, int width, int height);
 
     private:
         void updateCameraVectors();

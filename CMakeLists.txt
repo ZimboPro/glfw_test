@@ -96,6 +96,8 @@ add_executable(
     src/Models.cpp
     src/Image.cpp
     src/MultipleOfModel.cpp
+    src/ModelGroup.cpp
+    src/Font.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )

@@ -27,6 +27,7 @@ class MultipleOfModel
     private:
         Model * _model;
         std::vector<Point> _points;
+        bool _delete;
 };
 
 #endif
