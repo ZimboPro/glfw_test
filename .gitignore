@@ -57,3 +57,5 @@ libglad/
 ._*
 *.mtl
 *.png
+*.TTF
+*.ttf

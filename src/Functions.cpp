@@ -20,6 +20,7 @@
 #include <ModelGroup.hpp>
 #include <Font.hpp>
 #include <Log.hpp>
+#include <Text.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -111,10 +112,12 @@ Functions & Functions::operator=(Functions const & src)
 void Functions::Loop()
 {
     Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
+    Shaders textshader(R"(../Resources/VertexShaders/TextVert.glsl)", R"(../Resources/FragmentShaders/TextFrag.glsl)");
     // Shaders modelshader(R"(../Resources/VertexShaders/MeshVert.glsl)", R"(../Resources/FragmentShaders/MeshFrag.glsl)");
 
     // Model model();
     Model model2(R"(../Resources/Assets/iron_block.obj)");
+    Text text("../Resources/OCRAEXT.TTF");
 
     // model.Scale(0.2f);
     // MultipleOfModel wall(R"(../Resources/Assets/iron_block.obj)", 0.2f);
@@ -165,7 +168,7 @@ void Functions::Loop()
     model2.NewPostionAndScale(glm::vec3(0.0f, 0.0f, 0.0f), 0.2f, 0);
     float elapsed = glfwGetTime();
     int fps = 0;
-    Font::Load();
+    // Font::Load();
 	while (!glfwWindowShouldClose(this->_win))
 	{
         float currentFrame = glfwGetTime();
@@ -184,9 +187,10 @@ void Functions::Loop()
         //need to reset the matrix
         model2.DrawAndSet(modelshader, "model");
         // wall.Draw(modelshader);
+        text.Render(textshader, "Test", 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
 
-        Font::Draw(modelshader, camera, this->_width, this->_height, "abcdefghijklmnopqrstuvwxyz", this->_width / 4, this->_height / 4, 0.01);
-        Font::Draw(modelshader, camera, this->_width, this->_height, "0123456789", this->_width / 4, this->_height / 2, 0.01);
+        // Font::Draw(modelshader, camera, this->_width, this->_height, "abcdefghijklmnopqrstuvwxyz", this->_width / 4, this->_height / 4, 0.01);
+        // Font::Draw(modelshader, camera, this->_width, this->_height, "0123456789", this->_width / 4, this->_height / 2, 0.01);
 
         // darkshader.use();
         // darkshader.setMat4("projection", projection);
