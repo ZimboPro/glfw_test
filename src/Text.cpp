@@ -81,16 +81,27 @@ void Text::Load(const char * file)
     glBindVertexArray(0);
 }
 
-void Text::Render(Shaders &shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, int width, int height)
+void Enable()
 {
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void Disable()
+{
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_BLEND);
+}
+
+void Text::Render(Shaders &shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, int width, int height)
+{
+    Enable();
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height));
     shader.use();
-    glUniformMatrix4fv(glGetUniformLocation(shader.ID(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-    glUniform3f(glGetUniformLocation(shader.ID(), "textColor"), color.x, color.y, color.z);
+    shader.setMat4Ptr("projection", projection);
+    shader.setVec3("textColor", color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(this->_VAO);
 
@@ -130,6 +141,5 @@ void Text::Render(Shaders &shader, std::string text, GLfloat x, GLfloat y, GLflo
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_BLEND);
+    Disable();
 }

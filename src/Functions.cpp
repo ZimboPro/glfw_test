@@ -188,6 +188,7 @@ void Functions::Loop()
         model2.DrawAndSet(modelshader, "model");
         // wall.Draw(modelshader);
         text.Render(textshader, "Test", 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
+        text.Render(textshader, "Hello World", 800, 600, 0.5, glm::vec3(0, 0, 1), this->_width, this->_height);
 
         // Font::Draw(modelshader, camera, this->_width, this->_height, "abcdefghijklmnopqrstuvwxyz", this->_width / 4, this->_height / 4, 0.01);
         // Font::Draw(modelshader, camera, this->_width, this->_height, "0123456789", this->_width / 4, this->_height / 2, 0.01);
