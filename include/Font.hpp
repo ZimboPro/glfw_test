@@ -16,6 +16,7 @@ class Font
     private:
         Font();
         ~Font();
+        static void LoadModels(char b, char e);
         static std::map<char, Model *> _letters;
         static std::map<char, float> _space;
 };

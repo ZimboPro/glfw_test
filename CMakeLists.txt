@@ -98,6 +98,7 @@ add_executable(
     src/MultipleOfModel.cpp
     src/ModelGroup.cpp
     src/Font.cpp
+    src/Log.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )

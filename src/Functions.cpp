@@ -19,6 +19,7 @@
 #include <MultipleOfModel.hpp>
 #include <ModelGroup.hpp>
 #include <Font.hpp>
+#include <Log.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -52,8 +53,8 @@ Functions::Functions()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    this->_height = 600;
-    this->_width = 800;
+    this->_height = 720;
+    this->_width = 1024;
 
     this->_win = glfwCreateWindow(this->_width, this->_height, "Learn OpenGL", NULL, NULL);
 	if (this->_win == NULL)
@@ -109,8 +110,8 @@ Functions & Functions::operator=(Functions const & src)
 
 void Functions::Loop()
 {
-    // Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
-    Shaders modelshader(R"(../Resources/VertexShaders/MeshVert.glsl)", R"(../Resources/FragmentShaders/MeshFrag.glsl)");
+    Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
+    // Shaders modelshader(R"(../Resources/VertexShaders/MeshVert.glsl)", R"(../Resources/FragmentShaders/MeshFrag.glsl)");
 
     // Model model();
     Model model2(R"(../Resources/Assets/iron_block.obj)");
@@ -181,10 +182,11 @@ void Functions::Loop()
         modelshader.setVec3("light", glm::vec3(-30, 30, 30));
 
         //need to reset the matrix
-        // model2.DrawAndSet(modelshader, "model");
+        model2.DrawAndSet(modelshader, "model");
         // wall.Draw(modelshader);
 
-        Font::Draw(modelshader, camera, this->_width, this->_height, "m", 0, 0, 0.2);
+        Font::Draw(modelshader, camera, this->_width, this->_height, "abcdefghijklmnopqrstuvwxyz", this->_width / 4, this->_height / 4, 0.01);
+        Font::Draw(modelshader, camera, this->_width, this->_height, "0123456789", this->_width / 4, this->_height / 2, 0.01);
 
         // darkshader.use();
         // darkshader.setMat4("projection", projection);
@@ -201,6 +203,10 @@ void Functions::Loop()
             elapsed = glfwGetTime();
             fps = 0;
         }
+        GLenum error = glGetError();
+
+        if (error != GL_NO_ERROR)
+            std::cout << "OpenGL error: " << error << std::endl;
 
 		glfwSwapBuffers(this->_win);
 		glfwPollEvents();
