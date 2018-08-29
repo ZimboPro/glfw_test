@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <Shaders.hpp>
-#include <Models.hpp>
+#include <Text.hpp>
 
 unsigned int WIDTH = 800;
 unsigned int HEIGHT = 800;
@@ -86,11 +86,9 @@ int main(void)
     InitialiseWindow();
 
     // coloring and how to interpret shader data
-    Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
-    // loads model, can also set postion and scale 
-    
-    Model model(R"(../Resources/Assets/iron_block.obj)");
-    Model model2(R"(../Resources/Assets/mario_walking_1.obj)");
+    Shaders textshader(R"(../Resources/VertexShaders/TextVert.glsl)", R"(../Resources/FragmentShaders/TextFrag.glsl)");
+    // loads text font
+    Text text("../Resources/OCRAEXT.TTF");
 
     //point camera needs to look at
     camera.LookAt(glm::vec3(0));
@@ -101,7 +99,6 @@ int main(void)
 
     //if only one position of model
     //NOTE, in this case the Y component is actually the hieght in 3d space, would used in jumping
-    model2.NewPostionAndScale(glm::vec3(-5, 0, -5), 0.2);
     while (glfwWindowShouldClose(win))
     {
         ProcessInput();
@@ -113,16 +110,8 @@ int main(void)
         //NOTE:: all drawings can only be done after setting the camera
         camera.SetShaderView(modelshader, WIDTH, HEIGHT);
 
-        // set position of the light for shading
-        modelshader.setVec3("light", glm::vec3(-30, 30, 30));
-
-        model.Scale(0.2f);
-        model.DrawAt(0, 0);
-        //if same model but different position and rotation
-        model.DrawAt(10, 10, 0, 45);
-
-        // because it has a set position and this instance of model is only drawn once it can be set here
-        model2.Draw(modelshader);
+        //NOTE the x, y origin is the bottom left corner
+        text.Render(textshader, "Test", 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
 
         fps++;
         if (currentFrame - elapsed >= 1.0f)

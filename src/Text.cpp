@@ -83,6 +83,7 @@ void Text::Load(const char * file)
 
 void Text::Enable()
 {
+    glDisable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -90,6 +91,7 @@ void Text::Enable()
 
 void Text::Disable()
 {
+    glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glDisable(GL_BLEND);
 }

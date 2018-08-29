@@ -15,12 +15,14 @@ SpriteRender::~SpriteRender()
 
 void SpriteRender::Enable()
 {
+    glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void SpriteRender::Disable()
 {
+    glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
 }
 
@@ -29,6 +31,7 @@ void SpriteRender::DrawSprite(TextureImages &texture, glm::vec2 position, glm::v
     Enable();
     // Prepare transformations
     this->_shader->use();
+    this->_shader->setInt("texture1", 0);
     glm::mat4 model;
     model = glm::translate(model, glm::vec3(position, 0.0f));  // First translate (transformations are: scale happens first, then rotation and then finall translation happens; reversed order)
 

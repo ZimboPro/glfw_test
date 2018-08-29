@@ -38,7 +38,7 @@ void TextureImages::Load()
             format = GL_RGB;
         else if (this->_channel == 4)
             format = GL_RGBA;
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->_width, this->_height, 0, format, GL_UNSIGNED_BYTE, this->_data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->_width, this->_height, 0, format, GL_UNSIGNED_BYTE, this->_data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
     stbi_image_free(this->_data);
@@ -46,6 +46,5 @@ void TextureImages::Load()
 
 void TextureImages::Bind()
 {
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->_ID);
 }

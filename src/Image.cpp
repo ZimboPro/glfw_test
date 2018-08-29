@@ -54,7 +54,7 @@ void Image::Draw(Shaders & shader, Camera & camera)
     shader.use();
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->_WinWidth), 0.0f, static_cast<GLfloat>(this->_WinHeight));
     // shader.setMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)this->_WinWidth / (float)this->_WinHeight , 1.0f, 100.0f));
-    shader.setMat4("projection", projection);
+    shader.setMat4("projection", glm::mat4());
     shader.setMat4("view", glm::mat4());
     glm::mat4 model(1.0f);
     // model = glm::translate(model, camera.Position);
