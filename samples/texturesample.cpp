@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 
 #include <Shaders.hpp>
+#include <TextureImages.hpp>
+#include <SpriteRender.hpp>
 #include <Text.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
