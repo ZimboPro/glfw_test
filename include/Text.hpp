@@ -28,6 +28,9 @@ class Text
         void Render(Shaders &shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, int width, int height);
     
     private:
+        void Enable();
+        void Disable();
+
         std::map<GLchar, Character> _characters;
         unsigned int _VAO;
         unsigned int _VBO;

@@ -81,14 +81,14 @@ void Text::Load(const char * file)
     glBindVertexArray(0);
 }
 
-void Enable()
+void Text::Enable()
 {
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Disable()
+void Text::Disable()
 {
     glDisable(GL_CULL_FACE);
     glDisable(GL_BLEND);

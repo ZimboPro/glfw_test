@@ -21,6 +21,8 @@
 #include <Font.hpp>
 #include <Log.hpp>
 #include <Text.hpp>
+#include <Texture2d.hpp>
+#include <SpriteRender.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -111,13 +113,18 @@ Functions & Functions::operator=(Functions const & src)
 
 void Functions::Loop()
 {
-    Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
-    Shaders textshader(R"(../Resources/VertexShaders/TextVert.glsl)", R"(../Resources/FragmentShaders/TextFrag.glsl)");
+    // Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
+    // Shaders textshader(R"(../Resources/VertexShaders/TextVert.glsl)", R"(../Resources/FragmentShaders/TextFrag.glsl)");
+    // Shaders spriteshader(R"(../Resources/VertexShaders/SpriteVert.glsl)", R"(../Resources/FragmentShaders/SpriteFrag.glsl)");
+    Shaders imageshader(R"(../Resources/VertexShaders/ImageVert.glsl)", R"(../Resources/FragmentShaders/ImageFrag.glsl)");
     // Shaders modelshader(R"(../Resources/VertexShaders/MeshVert.glsl)", R"(../Resources/FragmentShaders/MeshFrag.glsl)");
 
     // Model model();
-    Model model2(R"(../Resources/Assets/iron_block.obj)");
-    Text text("../Resources/OCRAEXT.TTF");
+    // Model model2(R"(../Resources/Assets/iron_block.obj)");
+    // Text text("../Resources/OCRAEXT.TTF");
+    TextureImages texture("awesomeface.png");
+    // SpriteRender sprites(spriteshader);
+    
 
     // model.Scale(0.2f);
     // MultipleOfModel wall(R"(../Resources/Assets/iron_block.obj)", 0.2f);
@@ -157,15 +164,15 @@ void Functions::Loop()
     // wall.AddPoint(35, -15);
     // wall.AddPoint(-35, -15);
 
-    camera.LookAt(glm::vec3(0));
+    // camera.LookAt(glm::vec3(0));
 
     // TextureImages texture("awesomeface.png");
 
-    // Image image(200, 150, 400, 300, &texture, this->_width, this->_height);
+    Image image(200, 150, 400, 300, &texture, this->_width, this->_height);
     
     
     // model2.NewPostionAndScale(glm::vec3(5.0f, 0.0f, -10.0f), 0.2f, 45);
-    model2.NewPostionAndScale(glm::vec3(0.0f, 0.0f, 0.0f), 0.2f, 0);
+    // model2.NewPostionAndScale(glm::vec3(10.0f, 0.0f, -10.0f), 0.2f, 0);
     float elapsed = glfwGetTime();
     int fps = 0;
     // Font::Load();
@@ -181,14 +188,22 @@ void Functions::Loop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        camera.SetShaderView(modelshader, this->_width, this->_height);
-        modelshader.setVec3("light", glm::vec3(-30, 30, 30));
+        // camera.SetShaderView(modelshader, this->_width, this->_height);
+        // modelshader.setVec3("light", glm::vec3(-30, 30, 30));
 
-        //need to reset the matrix
-        model2.DrawAndSet(modelshader, "model");
-        // wall.Draw(modelshader);
-        text.Render(textshader, "Test", 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
-        text.Render(textshader, "Hello World", 800, 600, 0.5, glm::vec3(0, 0, 1), this->_width, this->_height);
+        // //need to reset the matrix
+        // model2.DrawAndSet(modelshader, "model");
+        // // wall.Draw(modelshader);
+        // text.Render(textshader, "Test", 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
+        // text.Render(textshader, "Hello World", 800, 600, 0.5, glm::vec3(0, 0, 1), this->_width, this->_height);
+
+        // spriteshader.use();
+        glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->_width), 0.0f, static_cast<GLfloat>(this->_height));
+        imageshader.use();
+        imageshader.setInt("texture1", 0);
+        image.Draw(imageshader, camera);
+        // spriteshader.setMat4Ptr("projection", projection);
+        // sprites.DrawSprite(texture, glm::vec2(200,200),glm::vec2(50, 50));
 
         // Font::Draw(modelshader, camera, this->_width, this->_height, "abcdefghijklmnopqrstuvwxyz", this->_width / 4, this->_height / 4, 0.01);
         // Font::Draw(modelshader, camera, this->_width, this->_height, "0123456789", this->_width / 4, this->_height / 2, 0.01);

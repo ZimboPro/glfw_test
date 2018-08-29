@@ -121,6 +121,7 @@ add_executable(
     src/Font.cpp
     src/Log.cpp
     src/Text.cpp
+    src/SpriteRender.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )
