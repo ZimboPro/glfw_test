@@ -2,6 +2,7 @@
 #include <Shaders.hpp>
 #include <TextureImages.hpp>
 #include <Camera.hpp>
+#include <PreProcessor.hpp>
 
 Image::Image(const float & x, const float & y, const float & width, const float & height, const glm::vec4 & color, unsigned int windowWidth, unsigned int windowHeight)
 {

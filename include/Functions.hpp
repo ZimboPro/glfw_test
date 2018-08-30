@@ -13,8 +13,7 @@
 #ifndef		FUNCTIONS_HPP
 # define	FUNCTIONS_HPP
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <Window.hpp>
 #include <iostream>
 
 class Functions {
@@ -27,8 +26,7 @@ class Functions {
 		void Loop();
 
 	private:
-		GLFWwindow * _win;
-		void ProcessInput();
+		Window * _win;
 		unsigned int VAO;
 		unsigned int VBO;
 		unsigned int _width;

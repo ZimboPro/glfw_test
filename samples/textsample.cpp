@@ -1,5 +1,4 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <SFML/OpenGL.hpp>
 
 #include <Shaders.hpp>
 #include <Text.hpp>

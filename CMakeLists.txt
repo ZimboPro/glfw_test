@@ -1,13 +1,30 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.11)
 
 project(og)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 
+if (APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif(APPLE)
+
 set(FETCHCONTENT_QUIET OFF)
 
 include(FetchContent)
+
+# Glad
+FetchContent_Declare(
+    glad
+    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+    GIT_TAG origin/c
+)
+
+FetchContent_GetProperties(glad)
+
+if(NOT glad_POPULATED)
+  FetchContent_Populate(glad)
+endif()
 
 # GLFW
 FetchContent_Declare(
@@ -26,17 +43,17 @@ if(NOT glfw_POPULATED)
   add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 endif()
 
-# Glad
+# SFML
 FetchContent_Declare(
-    glad
-    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-    GIT_TAG origin/c
+    sfml
+    URL https://www.sfml-dev.org/files/SFML-2.5.0-sources.zip
 )
 
-FetchContent_GetProperties(glad)
+FetchContent_GetProperties(sfml)
 
-if(NOT glad_POPULATED)
-  FetchContent_Populate(glad)
+if(NOT sfml_POPULATED)
+  FetchContent_Populate(sfml)
+  add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
 endif()
 
 # STB_Image
@@ -92,24 +109,26 @@ if(NOT freetype2)
   add_subdirectory(${freetype2_SOURCE_DIR} ${freetype2_BINARY_DIR})
 endif()
 
-
-
-include_directories(
+set(HEADER 
     ${glad_SOURCE_DIR}/include 
-    ${glfw_SOURCE_DIR}/include 
+    ${glfw_SOURCE_DIR}/include
+    ${sfml_SOURCE_DIR}/include 
     ${std_image_SOURCE_DIR} 
     ${glm_SOURCE_DIR} 
     ${assimp_SOURCE_DIR}/include
     ${freetype2_SOURCE_DIR}/include
 
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-add_executable(
-    og
+include_directories(
+    ${HEADER}
+)
 
-    src/Functions.cpp
-    src/main.cpp
+
+add_library(
+    graphics
+    
     src/Shaders.cpp
     src/TextureImages.cpp
     src/Camera.cpp
@@ -122,15 +141,23 @@ add_executable(
     src/Log.cpp
     src/Text.cpp
     src/SpriteRender.cpp
+    src/Window.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )
 
-target_link_libraries(og glfw assimp freetype)
-
 find_package(OpenGL REQUIRED)
-target_link_libraries(og ${OPENGL_gl_LIBRARY})
 
 if (OPENGL_GLU_FOUND)
-    target_link_libraries(og ${OPENGL_glu_LIBRARY})
+    target_link_libraries(graphics PUBLIC ${OPENGL_glu_LIBRARY})
 endif()
+
+target_include_directories(graphics PUBLIC ${HEADER})
+target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio ${OPENGL_gl_LIBRARY})
+
+add_executable(og 
+    src/main.cpp
+    src/Functions.cpp
+)
+
+target_link_libraries(og graphics)
