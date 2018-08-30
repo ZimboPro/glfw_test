@@ -29,7 +29,6 @@ endif()
 # GLFW
 FetchContent_Declare(
     glfw
-    
     URL "https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip"
 )
 
@@ -53,6 +52,9 @@ FetchContent_GetProperties(sfml)
 
 if(NOT sfml_POPULATED)
   FetchContent_Populate(sfml)
+  set(SFML_BUILD_WINDOW OFF CACHE BOOL "" FORCE)
+  set(SFML_BUILD_GRAPHICS OFF CACHE BOOL "" FORCE)
+  set(SFML_BUILD_NETWORK OFF CACHE BOOL "" FORCE)
   add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
 endif()
 
@@ -92,6 +94,10 @@ if(NOT assimp_POPULATED)
   FetchContent_Populate(assimp)
   set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
   set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(ASSIMP_NO_EXPORT ON CACHE BOOL "" FORCE)
+  set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+  set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "" FORCE)
+  set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "" FORCE)
 
   add_subdirectory(${assimp_SOURCE_DIR} ${assimp_BINARY_DIR})
 endif()
@@ -125,7 +131,6 @@ include_directories(
     ${HEADER}
 )
 
-
 add_library(
     graphics
     
@@ -153,11 +158,4 @@ if (OPENGL_GLU_FOUND)
 endif()
 
 target_include_directories(graphics PUBLIC ${HEADER})
-target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio ${OPENGL_gl_LIBRARY})
-
-add_executable(og 
-    src/main.cpp
-    src/Functions.cpp
-)
-
-target_link_libraries(og graphics)
+target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio sfml-system ${OPENGL_gl_LIBRARY})

@@ -43,7 +43,7 @@
 
 og
 Makefile
-
+    
 .vscode/
 build/
 CMakeFiles/
@@ -54,6 +54,9 @@ libogsrc-prefix/
 libgladsrc-prefix/
 libglad/
 
+main.cpp
+Functions.cpp
+Functions.hpp
 ._*
 *.mtl
 *.png
