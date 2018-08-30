@@ -151,6 +151,7 @@ add_library(
     ${glad_SOURCE_DIR}/src/glad.c
 )
 
+
 find_package(OpenGL REQUIRED)
 
 if (OPENGL_GLU_FOUND)
@@ -159,3 +160,11 @@ endif()
 
 target_include_directories(graphics PUBLIC ${HEADER})
 target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio sfml-system ${OPENGL_gl_LIBRARY})
+
+# add_executable(
+#     og
+#     src/main.cpp
+#     src/Functions.cpp
+# )
+
+# target_link_libraries(og graphics)

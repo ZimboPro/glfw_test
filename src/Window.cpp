@@ -125,10 +125,11 @@ bool Window::Init()
 {
     if (!glfwInit())
         return failed("GameEngine failed to initialise");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     this->_win = glfwCreateWindow(this->_width, this->_height,this->_title, NULL, NULL);
     if (!this->_win)
@@ -185,4 +186,23 @@ unsigned int Window::Width()
 unsigned int Window::Height() 
 {
     return this->_height;
+}
+
+void Window::resize(unsigned int w, unsigned int h)
+{
+    this->_width = w;
+    this->_height = h;
+    glfwSetWindowSize(this->_win, this->_width, this->_height);
+}
+
+void Window::fullscreen()
+{
+    glfwSetWindowMonitor(this->_win, glfwGetPrimaryMonitor(), 0, 0, this->_width, this->_height, GL_DONT_CARE);
+}
+
+void Window::windowed()
+{
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwSetWindowMonitor(this->_win, NULL, (mode->width - this->_width) / 2, (mode->height - this->_height) / 2, this->_width, this->_height, GL_DONT_CARE);
 }

@@ -18,6 +18,9 @@ class Window
         void clear() ;
         void clear(int8_t r, int8_t g, int8_t b) ;
         void clear(float r, float g, float b) ;
+        void resize(unsigned int w, unsigned int h);
+        void fullscreen();
+        void windowed();
 
         unsigned int Width() ;
         unsigned int Height() ;
