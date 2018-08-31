@@ -31,11 +31,14 @@ class Window
         bool isButtonClicked(int button) ;
         void CursorPostion(double &x, double & y) ;
 
+        bool isInitialised();
+
     private:
         const char * _title;
         unsigned int _width;
         unsigned int _height;
         GLFWwindow * _win;
+        bool _isInitialised;
 
         bool _keys[MAX_KEYS];
         bool _keyState[MAX_KEYS];
@@ -52,6 +55,7 @@ class Window
         friend void window_resize(GLFWwindow * window, int width, int height);
 
         bool Init();
+        void centerScreen();
 };
 
 

@@ -34,7 +34,8 @@ Window::Window(const char *title, unsigned int w, unsigned int h) : _title(title
 {
     this->_height = h;
     this->_width = w;
-    if (!Init())
+    this->_isInitialised = Init();
+    if (!this->_isInitialised)
         glfwTerminate();
     
     for (int i = 0; i < MAX_KEYS; i++)
@@ -193,6 +194,7 @@ void Window::resize(unsigned int w, unsigned int h)
     this->_width = w;
     this->_height = h;
     glfwSetWindowSize(this->_win, this->_width, this->_height);
+    centerScreen();
 }
 
 void Window::fullscreen()
@@ -205,4 +207,16 @@ void Window::windowed()
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     glfwSetWindowMonitor(this->_win, NULL, (mode->width - this->_width) / 2, (mode->height - this->_height) / 2, this->_width, this->_height, GL_DONT_CARE);
+}
+
+void Window::centerScreen()
+{
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwSetWindowPos(this->_win, (mode->width - this->_width) / 2, (mode->height - this->_height) / 2);
+}
+
+bool Window::isInitialised()
+{
+    return this->_isInitialised;
 }

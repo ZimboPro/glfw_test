@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.11)
 
-project(og)
+project(graphics)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
@@ -160,6 +160,16 @@ endif()
 
 target_include_directories(graphics PUBLIC ${HEADER})
 target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio sfml-system ${OPENGL_gl_LIBRARY})
+
+install(TARGETS graphics DESTINATION ${CMAKE_BINARY_DIR}/Graphics)
+
+set(CPACK_GENERATOR OSXX11)
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Leslie")
+set(CPACK_PACKAGE_NAME graphics)
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_BINARY_DIR})
+
+
+INCLUDE(CPack)
 
 # add_executable(
 #     og
