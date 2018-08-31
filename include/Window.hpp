@@ -56,6 +56,12 @@ class Window
 
         bool Init();
         void centerScreen();
+        void setCallback();
+        void windowHints();
+        void InitKeys();
+        void InitButtons();
+        void UpdateKeysAndButtons();
+        bool InitGlad();
 };
 
 

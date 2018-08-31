@@ -116,6 +116,10 @@ if(NOT freetype2)
 endif()
 
 set(HEADER 
+    
+)
+
+include_directories(
     ${glad_SOURCE_DIR}/include 
     ${glfw_SOURCE_DIR}/include
     ${sfml_SOURCE_DIR}/include 
@@ -125,10 +129,6 @@ set(HEADER
     ${freetype2_SOURCE_DIR}/include
 
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
-include_directories(
-    ${HEADER}
 )
 
 add_library(
@@ -158,15 +158,27 @@ if (OPENGL_GLU_FOUND)
     target_link_libraries(graphics PUBLIC ${OPENGL_glu_LIBRARY})
 endif()
 
-target_include_directories(graphics PUBLIC ${HEADER})
+target_include_directories(graphics PUBLIC 
+    ${glad_SOURCE_DIR}/include 
+    ${glfw_SOURCE_DIR}/include
+    ${sfml_SOURCE_DIR}/include 
+    ${std_image_SOURCE_DIR} 
+    ${glm_SOURCE_DIR} 
+    ${assimp_SOURCE_DIR}/include
+    ${freetype2_SOURCE_DIR}/include
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio sfml-system ${OPENGL_gl_LIBRARY})
+
 
 install(TARGETS graphics DESTINATION ${CMAKE_BINARY_DIR}/Graphics)
 
-set(CPACK_GENERATOR OSXX11)
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Leslie")
-set(CPACK_PACKAGE_NAME graphics)
-set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CPACK_GENERATOR "OSXX11" CACHE STRING "" FORCE)
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Leslie" CACHE STRING "" FORCE)
+set(CPACK_PACKAGE_NAME "graphics" CACHE STRING "" FORCE)
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_BINARY_DIR} CACHE PATH "" FORCE)
 
 
 INCLUDE(CPack)
@@ -178,3 +190,4 @@ INCLUDE(CPack)
 # )
 
 # target_link_libraries(og graphics)
+

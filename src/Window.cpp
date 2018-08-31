@@ -29,21 +29,36 @@ void window_resize(GLFWwindow * window, int width, int height)
     win->_width = width;
 }
 
-
 Window::Window(const char *title, unsigned int w, unsigned int h) : _title(title)
 {
     this->_height = h;
     this->_width = w;
+
     this->_isInitialised = Init();
     if (!this->_isInitialised)
         glfwTerminate();
     
+    InitKeys();
+    InitButtons();
+}
+
+Window::~Window()
+{
+    glfwTerminate();
+}
+
+void Window::InitKeys()
+{
     for (int i = 0; i < MAX_KEYS; i++)
     {
         this->_keys[i] = false;
         this->_keyState[i] = false;
         this->_keyTyped[i] = false;
     }
+}
+
+void Window::InitButtons()
+{
     for (int i = 0; i < MAX_BUTTONS; i++)
     {
         this->_buttons[i] = false;
@@ -52,17 +67,12 @@ Window::Window(const char *title, unsigned int w, unsigned int h) : _title(title
     }
 }
 
-Window::~Window()
-{
-    glfwTerminate();
-}
-
 void Window::close()
 {
     glfwSetWindowShouldClose(this->_win, true);
 }
 
-void Window::update()
+void Window::UpdateKeysAndButtons()
 {
     for (int i = 0; i < MAX_KEYS; i++)
         this->_keyTyped[i] = this->_keys[i] && !this->_keyState[i];
@@ -71,10 +81,13 @@ void Window::update()
     for (int i = 0; i < MAX_BUTTONS; i++)
         this->_buttonClicked[i] = this->_buttons[i] && !this->_buttonState[i];
     memcpy(this->_buttonState, this->_buttons, MAX_BUTTONS);
+}
 
+void Window::update()
+{
+    UpdateKeysAndButtons();
 
     GLenum error = glGetError();
-
     if (error != GL_NO_ERROR)
         std::cout << "OpenGL error: " << error << std::endl;
 
@@ -122,19 +135,8 @@ void Window::CursorPostion(double &x, double & y)
     y = _mouseY;
 }
 
-bool Window::Init()
+void Window::setCallback()
 {
-    if (!glfwInit())
-        return failed("GameEngine failed to initialise");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-    this->_win = glfwCreateWindow(this->_width, this->_height,this->_title, NULL, NULL);
-    if (!this->_win)
-        return failed("Failed to create window");
     glfwMakeContextCurrent(this->_win);
 
     glfwSetKeyCallback(this->_win, key_callback);
@@ -142,11 +144,35 @@ bool Window::Init()
     glfwSetMouseButtonCallback(this->_win, mouse_button_callback);
     glfwSetFramebufferSizeCallback(this->_win, window_resize);
 
-    //doesn't cap fps
     glfwSwapInterval(0.0);
-
     glfwSetWindowUserPointer(this->_win, this);
+}
 
+void Window::windowHints()
+{
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+}
+
+bool Window::Init()
+{
+    if (!glfwInit())
+        return failed("GameEngine failed to initialise");
+    windowHints();
+
+    this->_win = glfwCreateWindow(this->_width, this->_height,this->_title, NULL, NULL);
+    if (!this->_win)
+        return failed("Failed to create window");
+    
+    setCallback();
+    return InitGlad();
+}
+
+bool Window::InitGlad()
+{
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         return failed("Failed to initialize GLAD");
     glEnable(GL_DEPTH_TEST);
