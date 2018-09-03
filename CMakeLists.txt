@@ -139,7 +139,6 @@ add_library(
     src/Camera.cpp
     src/Mesh.cpp
     src/Models.cpp
-    src/Image.cpp
     src/MultipleOfModel.cpp
     src/ModelGroup.cpp
     src/Font.cpp
