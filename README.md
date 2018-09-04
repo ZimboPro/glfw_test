@@ -1,6 +1,6 @@
 # glfw_test
 
-a small project to learn OpenGl using
+a small project to learn OpenGL using
 
 http://www.glfw.org/
 
