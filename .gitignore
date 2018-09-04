@@ -57,6 +57,7 @@ libglad/
 main.cpp
 Functions.cpp
 Functions.hpp
+
 ._*
 *.mtl
 *.png

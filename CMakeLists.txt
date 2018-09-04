@@ -115,6 +115,7 @@ if(NOT freetype2)
   add_subdirectory(${freetype2_SOURCE_DIR} ${freetype2_BINARY_DIR})
 endif()
 
+# library
 add_library(
     graphics
     
@@ -155,10 +156,11 @@ target_include_directories(graphics PUBLIC
 
 target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio sfml-system ${OPENGL_gl_LIBRARY})
 
-
+# install
 install(TARGETS graphics DESTINATION ${CMAKE_BINARY_DIR}/Graphics)
 set(INSTALL_DIR)
 
+# CPack
 set(CPACK_GENERATOR "OSXX11" CACHE STRING "" FORCE)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Leslie" CACHE STRING "" FORCE)
 set(CPACK_PACKAGE_NAME "graphics" CACHE STRING "" FORCE)
@@ -174,4 +176,3 @@ include(CPack)
 # )
 
 # target_link_libraries(og graphics)
-
