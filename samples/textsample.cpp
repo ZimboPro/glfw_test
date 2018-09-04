@@ -95,6 +95,7 @@ int main(void)
     // for timing purposes
     float elapsed = glfwGetTime();
     int fps = 0;
+    std::string f("0");
 
     //if only one position of model
     //NOTE, in this case the Y component is actually the hieght in 3d space, would used in jumping
@@ -110,13 +111,14 @@ int main(void)
         camera.SetShaderView(modelshader, WIDTH, HEIGHT);
 
         //NOTE the x, y origin is the bottom left corner
-        text.Render(textshader, "Test", 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
+        text.Render(textshader, f, 10, 10, 1, glm::vec3(1, 1, 0), this->_width, this->_height);
 
         fps++;
         if (currentFrame - elapsed >= 1.0f)
         {
             std::cout << fps << std::endl;
             elapsed = glfwGetTime();
+            f = to_string(fps);
             fps = 0;
         }
         GLenum error = glGetError();

@@ -115,22 +115,6 @@ if(NOT freetype2)
   add_subdirectory(${freetype2_SOURCE_DIR} ${freetype2_BINARY_DIR})
 endif()
 
-set(HEADER 
-    
-)
-
-include_directories(
-    ${glad_SOURCE_DIR}/include 
-    ${glfw_SOURCE_DIR}/include
-    ${sfml_SOURCE_DIR}/include 
-    ${std_image_SOURCE_DIR} 
-    ${glm_SOURCE_DIR} 
-    ${assimp_SOURCE_DIR}/include
-    ${freetype2_SOURCE_DIR}/include
-
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
 add_library(
     graphics
     
@@ -138,9 +122,8 @@ add_library(
     src/TextureImages.cpp
     src/Camera.cpp
     src/Mesh.cpp
-    src/Models.cpp
-    src/Image.cpp
-    src/MultipleOfModel.cpp
+    src/ModelTexture.cpp
+    src/ModelSprite.cpp
     src/ModelGroup.cpp
     src/Font.cpp
     src/Log.cpp
@@ -174,14 +157,15 @@ target_link_libraries(graphics PUBLIC glfw assimp freetype sfml-audio sfml-syste
 
 
 install(TARGETS graphics DESTINATION ${CMAKE_BINARY_DIR}/Graphics)
+set(INSTALL_DIR)
 
 set(CPACK_GENERATOR "OSXX11" CACHE STRING "" FORCE)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Leslie" CACHE STRING "" FORCE)
 set(CPACK_PACKAGE_NAME "graphics" CACHE STRING "" FORCE)
+include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_BINARY_DIR} CACHE PATH "" FORCE)
 
-
-INCLUDE(CPack)
+include(CPack)
 
 # add_executable(
 #     og

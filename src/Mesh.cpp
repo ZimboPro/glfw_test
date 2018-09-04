@@ -11,6 +11,13 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     setupMesh();
 }
 
+Mesh::~Mesh()
+{
+    this->_indices.clear();
+    this->_textures.clear();
+    this->_vertices.clear();
+}
+
 void Mesh::setupMesh()
 {
     glGenVertexArrays(1, &this->VAO);
@@ -76,4 +83,4 @@ void Mesh::Draw(Shaders shader)
     glBindVertexArray(0);
 
     glActiveTexture(GL_TEXTURE0);
-}  
+}

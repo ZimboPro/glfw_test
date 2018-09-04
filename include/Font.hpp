@@ -2,7 +2,8 @@
 #define FONT_HPP
 
 #include <map>
-#include <Models.hpp>
+#include <ModelTexture.hpp>
+#include <ModelSprite.hpp>
 
 class Camera;
 class Shaders;
@@ -17,7 +18,7 @@ class Font
         Font();
         ~Font();
         static void LoadModels(char b, char e);
-        static std::map<char, Model *> _letters;
+        static std::map<char, ModelSprite *> _letters;
         static std::map<char, float> _space;
 };
 

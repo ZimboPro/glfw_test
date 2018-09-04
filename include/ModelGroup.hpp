@@ -2,7 +2,7 @@
 #define MODELGROUP_HPP
 
 #include <vector>
-#include <MultipleOfModel.hpp>
+#include <ModelSprite.hpp>
 #include <glm/glm.hpp>
 
 class Shaders;
@@ -13,7 +13,7 @@ class ModelGroup
         ModelGroup();
         ~ModelGroup();
 
-        std::vector<MultipleOfModel> _models;
+        std::vector<ModelSprite> _models;
         void Draw(Shaders & shader, glm::mat4 projection, glm::mat4 view);
         
 };

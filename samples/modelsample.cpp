@@ -1,6 +1,6 @@
 #include <SFML/OpenGL.hpp>
 #include <Shaders.hpp>
-#include <Models.hpp>
+#include <ModelTexture.hpp>
 
 unsigned int WIDTH = 800;
 unsigned int HEIGHT = 800;

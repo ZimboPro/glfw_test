@@ -1,87 +1,42 @@
-#include <Models.hpp>
+#include <ModelTexture.hpp>
 #include <Shaders.hpp>
 #include <stb_image.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
-Model::Model(char *path, const glm::vec3 & position, const glm::vec3 & scale, bool gamma)
+ModelTexture::ModelTexture()
 {
-    this->_transformationMatrix = glm::mat4(1.0f);
-    Position(position);
-    Scale(scale);
-    this->_gammaCorrection = gamma;
+    this->_isLoaded = false;
+}
+
+ModelTexture::ModelTexture(char *path)
+{
     loadModel(path);
 }
 
-void Model::Position(const glm::vec3 & position)
+ModelTexture::~ModelTexture()
 {
-    this->_transformationMatrix = glm::translate(this->_transformationMatrix, position);
+    this->_meshes.clear();
+    this->_textureLoaded.clear();
 }
 
-void Model::Scale(const glm::vec3 & scale)
+bool ModelTexture::IsLoaded() const
 {
-    this->_scale = scale;
-    this->_transformationMatrix = glm::scale(this->_transformationMatrix, scale);
+    return this->_isLoaded;
 }
 
-void Model::Scale(const float & scale)
+void ModelTexture::Draw(const Shaders & shader)
 {
-    this->_scale = glm::vec3(scale);
-    this->_transformationMatrix = glm::scale(this->_transformationMatrix, this->_scale);
-
+    if (this->_isLoaded)
+    {
+        for (size_t i = 0; i < this->_meshes.size(); i++)
+            this->_meshes[i].Draw(shader);
+    }
+    else
+        std::cout << "texture loaded" << std::endl;
 }
 
-void Model::Draw(const Shaders & shader)
-{
-    for (size_t i = 0; i < this->_meshes.size(); i++)
-        this->_meshes[i].Draw(shader);
-}
-
-void Model::DrawAndSet(const Shaders & shader, const std::string & name)
-{
-    shader.setMat4(name, this->_transformationMatrix);
-    Draw(shader);
-}
-
-void Model::Reset()
-{
-    this->_transformationMatrix = glm::mat4(1.0f);
-}
-
-void Model::NewPostionAndScale(const glm::vec3 & position, const glm::vec3 & scale, const float & degrees)
-{
-    Reset();
-    Position(position);
-    Scale(scale);
-    Rotate(degrees);
-}
-
-void Model::NewPostionAndScale(const glm::vec3 & position, const float & scale, const float & degrees)
-{
-    NewPostionAndScale(position, glm::vec3(scale), degrees);
-}
-
-void Model::Rotate(const float & degrees)
-{
-    this->_transformationMatrix = glm::rotate(this->_transformationMatrix, glm::radians(degrees), glm::vec3(0, 1, 0));
-}
-
-void Model::Rotate(const float & degrees, const glm::vec3 & axis)
-{
-    this->_transformationMatrix = glm::rotate(this->_transformationMatrix, glm::radians(degrees), axis);
-}
-
-void Model::DrawAt(const Shaders & shader, const float & x, const float & y, const float & z, const float & degree)
-{
-    Reset();
-    Position(glm::vec3(x, z, y));
-    Scale(this->_scale);
-    Rotate(degree);
-    DrawAndSet(shader, "model");
-}
-
-void Model::loadModel(std::string path)
+void ModelTexture::loadModel(std::string path)
 {
     Assimp::Importer import;
     const aiScene * scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -89,14 +44,16 @@ void Model::loadModel(std::string path)
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
         std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
+        this->_isLoaded = false;
         return;
     }
     this->_directory = path.substr(0, path.find_last_of('/'));
 
     processNode(scene->mRootNode, scene);
+    this->_isLoaded = true;
 }
 
-void Model::processNode(aiNode *node, const aiScene *scene)
+void ModelTexture::processNode(aiNode *node, const aiScene *scene)
 {
     // process all the node's meshes (if any)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -111,7 +68,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
     }
 }
 
-std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
+std::vector<Texture> ModelTexture::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
 {
     std::vector<Texture> textures;
     for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -136,13 +93,13 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType 
             texture._type = typeName;
             texture._path = str.C_Str();
             textures.push_back(texture);
-            _textureLoaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+            _textureLoaded.push_back(texture);  // store it as texture loaded for entire ModelTexture, to ensure we won't unnecesery load duplicate textures.
         }
     }
     return textures;
 }
 
-Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
+Mesh ModelTexture::processMesh(aiMesh *mesh, const aiScene *scene)
 {
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
@@ -168,7 +125,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
         {
             glm::vec2 vec;
             // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-            // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+            // use ModelTexture where a vertex can have multiple texture coordinates so we always take the first set (0).
             vec.x = mesh->mTextureCoords[0][i].x; 
             vec.y = mesh->mTextureCoords[0][i].y;
             vertex._texCoords = vec;
@@ -215,7 +172,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
     return Mesh(vertices, indices, textures);
 }
 
-unsigned int Model::TextureFromFile(const char *path, const std::string &directory, bool gamma)
+unsigned int ModelTexture::TextureFromFile(const char *path, const std::string &directory)
 {
     std::string filename = std::string(path);
     filename = directory + '/' + filename;
@@ -251,6 +208,7 @@ unsigned int Model::TextureFromFile(const char *path, const std::string &directo
     else
     {
         std::cout << "Texture failed to load at path: " << path << std::endl;
+        this->_isLoaded = false;
         stbi_image_free(data);
     }
 

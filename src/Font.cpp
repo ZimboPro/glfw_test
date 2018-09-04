@@ -4,7 +4,7 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <cctype>
 
-std::map<char, Model *> Font::_letters;
+std::map<char, ModelSprite *> Font::_letters;
 std::map<char, float> Font::_space;
 
 Font::Font()
@@ -34,14 +34,14 @@ void Font::Draw(Shaders & shader, Camera & camera, int width, int height, const 
 
     for (size_t i = 0; i < str.size(); i++)
     {
-        Model * temp = _letters[toupper(str.at(i))];
+        ModelSprite * temp = _letters[toupper(str.at(i))];
         temp->Reset();
         temp->Position(newPosition + camera.Right * xSpacing * 1.15f);
         temp->Scale(scale);
         temp->Rotate(glm::degrees(degreey), glm::vec3(0, 1, 0));
         temp->Rotate(glm::degrees(degreex + degreeX), glm::vec3(1, 0, 0));
         temp->Rotate(glm::degrees(degreez), glm::vec3(0, 0, 1));
-        temp->DrawAndSet(shader, "model");
+        temp->Draw(shader);
         xSpacing += _space[toupper(str.at(i))] * scale;
     }
 }
@@ -51,7 +51,8 @@ void Font::LoadModels(char b, char e)
     for (char c = b; c <= e; c++)
     {
         std::string p = "../Resources/fonts/" + std::string(1, c) + ".obj";
-        _letters[toupper(c)] = new Model(const_cast<char *>(p.c_str()));
+        ModelTexture temp(const_cast<char *>(p.c_str()));
+        _letters[toupper(c)] = new ModelSprite(temp);
         _space[toupper(c)] = 5.0f;
         if (toupper(c) == 'I')
             _space[toupper(c)] = 2.0f;
