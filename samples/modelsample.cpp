@@ -1,4 +1,3 @@
-#include <SFML/OpenGL.hpp>
 #include <Shaders.hpp>
 #include <ModelTexture.hpp>
 #include <ModelSprite.hpp>

@@ -6,6 +6,7 @@
 #include <Structs.hpp>
 
 class Shaders;
+class ModelTexture;
 
 class Mesh
 {
@@ -22,6 +23,8 @@ class Mesh
         unsigned int VBO;
         unsigned int EBO;
         void setupMesh();
+
+        friend class ModelTexture;
 };
 
 #endif

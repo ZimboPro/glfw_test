@@ -16,6 +16,12 @@ ModelTexture::ModelTexture(char *path)
 
 ModelTexture::~ModelTexture()
 {
+    for (size_t i = 0; i < this->_meshes.size(); i++)
+    {
+        glDeleteVertexArrays(1, &this->_meshes[i].VAO);
+        glDeleteBuffers(1, &this->_meshes[i].VBO);
+        glDeleteBuffers(1, &this->_meshes[i].EBO);
+    }        
     this->_meshes.clear();
     this->_textureLoaded.clear();
 }
