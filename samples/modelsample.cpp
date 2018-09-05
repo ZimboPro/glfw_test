@@ -1,6 +1,7 @@
 #include <SFML/OpenGL.hpp>
 #include <Shaders.hpp>
 #include <ModelTexture.hpp>
+#include <ModelSprite.hpp>
 
 unsigned int WIDTH = 800;
 unsigned int HEIGHT = 800;
@@ -87,21 +88,38 @@ int main(void)
     Shaders modelshader(R"(../Resources/VertexShaders/ShadedModelsVert.glsl)", R"(../Resources/FragmentShaders/DarkShadedModelsFrag.glsl)");
     // loads model, can also set postion and scale 
     
-    Model model(R"(../Resources/Assets/iron_block.obj)");
-    Model model2(R"(../Resources/Assets/mario_walking_1.obj)");
+    ModelTexture modelTexture(R"(../Resources/Assets/iron_block.obj)");
+    ModelTexture modelTexture2(R"(../Resources/Assets/mario_walking_1.obj)");
+
+    ModelSprite sprite1(modelTexture);
+    ModelSprite sprite2(modelTexture);
+    
+    ModelSprite sprite3;
+    sprite.LoadModelTexture(modelTexture2);
 
     //point camera needs to look at
     camera.LookAt(glm::vec3(0));
 
     // for timing purposes
     float elapsed = glfwGetTime();
+    float currentFrame;
     int fps = 0;
 
     //if only one position of model
     //NOTE, in this case the Y component is actually the hieght in 3d space, would used in jumping
-    model2.NewPostionAndScale(glm::vec3(-5, 0, -5), 0.2);
+    sprite.Position(0,0);
+    sprite.Scale(0.2);
+
+    sprite.Position(10,10);
+    sprite.Scale(0.2);
+
+    sprite3.Position(-5,-5);
+    sprite3.Scale(0.2);
+    
+
     while (glfwWindowShouldClose(win))
     {
+        currentFrame = glfwGetTime();
         ProcessInput();
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -114,13 +132,16 @@ int main(void)
         // set position of the light for shading
         modelshader.setVec3("light", glm::vec3(-30, 30, 30));
 
-        model.Scale(0.2f);
-        model.DrawAt(0, 0);
-        //if same model but different position and rotation
-        model.DrawAt(10, 10, 0, 45);
+        //draw models
+        sprite1.Draw(modelshader);
+        sprite2.Draw(modelshader);
+        sprite3.Draw(modelshader);
 
-        // because it has a set position and this instance of model is only drawn once it can be set here
-        model2.Draw(modelshader);
+        if (currentFrame - elapsed >= 0.25f)
+        {
+            // move model sprite and/or rotate
+            sprite3.Move(-0.01, -0.01);
+        }
 
         fps++;
         if (currentFrame - elapsed >= 1.0f)
@@ -129,6 +150,7 @@ int main(void)
             elapsed = glfwGetTime();
             fps = 0;
         }
+
         GLenum error = glGetError();
 
         if (error != GL_NO_ERROR)

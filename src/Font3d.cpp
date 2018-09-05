@@ -1,16 +1,16 @@
-#include <Font.hpp>
+#include <Font3d.hpp>
 #include <Shaders.hpp>
 #include <Camera.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <cctype>
 
-std::map<char, ModelSprite *> Font::_letters;
-std::map<char, float> Font::_space;
+std::map<char, ModelSprite *> Font3d::_letters;
+std::map<char, float> Font3d::_space;
 
-Font::Font()
+Font3d::Font3d()
 {}
 
-Font::~Font()
+Font3d::~Font3d()
 {
     for( auto const& [key, val] : _letters)
     {
@@ -19,7 +19,7 @@ Font::~Font()
     _letters.clear();
 }
 
-void Font::Draw(Shaders & shader, Camera & camera, int width, int height, const std::string & str, float x, float y, float scale)
+void Font3d::Draw(Shaders & shader, Camera & camera, int width, int height, const std::string & str, float x, float y, float scale)
 {
     float xSpacing = (x - static_cast<float>(width >> 1)) / static_cast<float>(width >> 1);
     float ySpacing = (static_cast<float>(height >> 1) - y) / static_cast<float>(height >> 1);
@@ -46,7 +46,7 @@ void Font::Draw(Shaders & shader, Camera & camera, int width, int height, const 
     }
 }
 
-void Font::LoadModels(char b, char e)
+void Font3d::LoadModels(char b, char e)
 {
     for (char c = b; c <= e; c++)
     {
@@ -59,7 +59,7 @@ void Font::LoadModels(char b, char e)
     }
 }
 
-void Font::Load()
+void Font3d::Load()
 {
     LoadModels('a', 'z');
     LoadModels('0', '9');
