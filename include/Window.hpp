@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 #define MAX_KEYS 1024
 #define MAX_BUTTONS 32 
@@ -139,6 +140,13 @@ class Window
          */
 
         bool isInitialised();
+
+        /**
+         * @brief Get the window projection
+         * 
+         * @return glm::mat4 
+         */
+        glm::mat4 Projection();
 
     private:
         const char * _title;

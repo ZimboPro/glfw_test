@@ -1,6 +1,7 @@
 #include <Window.hpp>
 #include <iostream>
 #include <cstring>
+#include <glm/gtc/matrix_transform.hpp>
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -245,4 +246,9 @@ void Window::centerScreen()
 bool Window::isInitialised()
 {
     return this->_isInitialised;
+}
+
+glm::mat4 Window::Projection()
+{
+    return glm::ortho(0.0f, static_cast<GLfloat>(this->_width), 0.0f, static_cast<GLfloat>(this->_height));
 }
