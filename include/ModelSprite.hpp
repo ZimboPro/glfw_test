@@ -136,6 +136,14 @@ class ModelSprite
          */
         float GetRotation() const;
 
+        /**
+         * @brief If Model texture is loaded
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool IsLoaded() const;
+
 
     private:
         ModelTexture * _modelTexture;

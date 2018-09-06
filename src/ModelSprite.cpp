@@ -112,3 +112,8 @@ float ModelSprite::GetRotation() const
 {
     return this->_degrees;
 }
+
+bool ModelSprite::IsLoaded() const
+{
+    return this->_modelTexture != nullptr;
+}
