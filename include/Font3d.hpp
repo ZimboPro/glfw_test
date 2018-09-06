@@ -11,8 +11,8 @@ class Shaders;
 class Font3d
 {
     public:
-        static void Draw(Shaders & shader, Camera & camera, int width, int height, const std::string & str, float x, float y, float scale);
         static void Load();
+        static void Draw(Shaders & shader, Camera & camera, int width, int height, const std::string & str, float x, float y, float scale);
 
     private:
         Font3d();

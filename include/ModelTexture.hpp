@@ -10,16 +10,38 @@
 #include <iostream>
 
 class Shaders;
-
+//! ModelTexture class
+/*!
+    Stores the data of the models loaded
+*/
 class ModelTexture 
 {
     public:
         /*  Functions   */
+        /**
+         * @brief Construct a new Model Texture object
+         * 
+         */
         ModelTexture();
+        /**
+         * @brief Construct a new Model Texture object
+         * 
+         * @param path the path to the model file
+         */
         ModelTexture(char *path);
         ~ModelTexture();
-
+        /**
+         * @brief Loads the model
+         * 
+         * @param path the path to the model file
+         */
         void loadModel(std::string path);
+        /**
+         * @brief Returns true if a model has been loaded
+         * 
+         * @return true 
+         * @return false 
+         */
         bool IsLoaded() const;
 
     private:
@@ -35,6 +57,7 @@ class ModelTexture
         unsigned int TextureFromFile(const char *path, const std::string &directory);
 
         friend class ModelSprite;
+        friend class ModelGroup;
 };
 
 #endif

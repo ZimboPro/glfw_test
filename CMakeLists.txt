@@ -169,10 +169,10 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_BINARY_DIR} CACHE PATH "" FORCE)
 
 include(CPack)
 
-# add_executable(
-#     og
-#     src/main.cpp
-#     src/Functions.cpp
-# )
+add_executable(
+    og
+    src/main.cpp
+    src/Functions.cpp
+)
 
-# target_link_libraries(og graphics)
+target_link_libraries(og graphics)

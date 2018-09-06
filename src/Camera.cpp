@@ -1,6 +1,7 @@
 #include <Camera.hpp>
 #include <iostream>
 #include <Shaders.hpp>
+#include <stdexcept>
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
@@ -81,6 +82,8 @@ void Camera::updateCameraVectors()
 
 void Camera::LookAt(const glm::vec3 & point)
 {
+    if (point == this->Position)
+        throw std::logic_error("Look at point is the same as the camera Postion");
     Front = glm::normalize(point - Position);
     Right = glm::normalize(glm::cross(Front, WorldUp));
     Pitch = glm::degrees(asin(Front.y));

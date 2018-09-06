@@ -53,6 +53,7 @@ libogd/
 libogsrc-prefix/
 libgladsrc-prefix/
 libglad/
+Documentation/
 
 main.cpp
 Functions.cpp

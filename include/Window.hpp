@@ -7,29 +7,136 @@
 #define MAX_KEYS 1024
 #define MAX_BUTTONS 32 
 
+//! Window Class
+/*!
+    The Window class controls the window behaviour and events
+*/
+
 class Window
 {
     public:
+        /**
+         * @brief Construct a new Window object
+         * 
+         * @param title 
+         * @param w 
+         * @param h 
+         */
         Window(const char * title, unsigned int w, unsigned int h);
         ~Window();
+        /**
+         * @brief Updates the window
+         * 
+         */
         void update();
-        bool closed() ;
+        /**
+         * @brief Checks to see if the window has closed. Returns true if true
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool closed();
+        /**
+         * @brief Closes the window
+         * 
+         */
         void close();
+        /**
+         * @brief Clears the window to a black screen
+         * 
+         */
         void clear() ;
+        /**
+         * @brief Clears the window to the color specified
+         * 
+         * @param r - red on scale of 0 to 255
+         * @param g - green on scale of 0 to 255
+         * @param b - blue on scale of 0 to 255
+         */
         void clear(int8_t r, int8_t g, int8_t b) ;
+        /**
+         * @brief Clears the window to the color specified
+         * 
+         * @param r - red on scale of 0 to 1
+         * @param g - green on scale of 0 to 1
+         * @param b - blue on scale of 0 to 1
+         */
         void clear(float r, float g, float b) ;
-        void resize(unsigned int w, unsigned int h);
+        /**
+         * @brief Resize the window to the parameters specified
+         * 
+         * @param width
+         * @param height
+         */
+        void resize(unsigned int width, unsigned int height);
+        /**
+         * @brief Set the window to Fullscreen mode
+         * 
+         */
         void fullscreen();
+        /**
+         * @brief Change the window from fullscreen to windowed
+         * 
+         */
         void windowed();
-
+        /**
+         * @brief Return the window width
+         * 
+         * @return unsigned int 
+         */
         unsigned int Width() ;
+        /**
+         * @brief Return the window height
+         * 
+         * @return unsigned int 
+         */
         unsigned int Height() ;
-
+        /**
+         * @brief Is the Key being pressed
+         * 
+         * @param keycode is the GLFW_KEY enums
+         * @return true 
+         * @return false 
+         */
         bool isKeyPressed(int keycode) ;
+        /**
+         * @brief Is the Key being typed
+         * 
+         * @param keycode is the GLFW_KEY enums
+         * @return true 
+         * @return false 
+         */
         bool isKeyTyped(int keycode) ;
+        /**
+         * @brief Is the Button being pressed
+         * 
+         * @param button is the GLFW_BUTTON enums
+         * @return true 
+         * @return false 
+         */
         bool isButtonPressed(int button) ;
+        /**
+         * @brief Is the Button being clicked
+         * 
+         * @param button is the GLFW_BUTTON enums
+         * @return true 
+         * @return false 
+         */
         bool isButtonClicked(int button) ;
+        /**
+         * @brief The mouse cursor position according to the window
+         * 
+         * @param x 
+         * @param y 
+         */
         void CursorPostion(double &x, double & y) ;
+
+        /**
+         * @brief Is the window initialised, return true if it has
+         * 
+         * @return true 
+         * @return false 
+         */
 
         bool isInitialised();
 
