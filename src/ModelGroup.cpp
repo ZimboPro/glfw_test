@@ -42,3 +42,13 @@ void ModelGroup::Position(const float &x, const float &y, const float &z)
 {
     this->_position = glm::vec3(x, z, y);
 }
+
+glm::vec3 ModelGroup::GetPosition() const
+{
+    return this->_position;
+}
+
+void ModelGroup::Move(const float &x, const float &y, const float &z)
+{
+    this->_position += glm::vec3(x, z, y); 
+}

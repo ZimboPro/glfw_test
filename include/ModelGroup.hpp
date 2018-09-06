@@ -57,6 +57,22 @@ class ModelGroup
          * @param z 
          */
         void Position(const float &x, const float &y, const float &z = 0);
+
+        /**
+         * @brief Get the Position object
+         * 
+         * @return glm::vec3 
+         */
+        glm::vec3 GetPosition() const;
+
+        /**
+         * @brief Move the ModelGroup relative to it's current position
+         * 
+         * @param x 
+         * @param y 
+         * @param z 
+         */
+        void Move(const float &x, const float &y, const float &z = 0);
     
     private:
         glm::vec3 _position;
