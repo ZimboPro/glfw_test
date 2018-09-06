@@ -1,20 +1,20 @@
-#include <ModelTexture.hpp>
+#include <Model_Texture.hpp>
 #include <Shaders.hpp>
 #include <stb_image.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-ModelTexture::ModelTexture()
+Model_Texture::Model_Texture()
 {
     this->_isLoaded = false;
 }
 
-ModelTexture::ModelTexture(char *path)
+Model_Texture::Model_Texture(char *path)
 {
     loadModel(path);
 }
 
-ModelTexture::~ModelTexture()
+Model_Texture::~Model_Texture()
 {
     for (size_t i = 0; i < this->_meshes.size(); i++)
     {
@@ -26,12 +26,12 @@ ModelTexture::~ModelTexture()
     this->_textureLoaded.clear();
 }
 
-bool ModelTexture::IsLoaded() const
+bool Model_Texture::IsLoaded() const
 {
     return this->_isLoaded;
 }
 
-void ModelTexture::Draw(const Shaders & shader)
+void Model_Texture::Draw(const Shaders & shader)
 {
     if (this->_isLoaded)
     {
@@ -39,10 +39,10 @@ void ModelTexture::Draw(const Shaders & shader)
             this->_meshes[i].Draw(shader);
     }
     else
-        std::cout << "texture loaded" << std::endl;
+        std::cout << "texture not loaded" << std::endl;
 }
 
-void ModelTexture::loadModel(std::string path)
+void Model_Texture::loadModel(std::string path)
 {
     Assimp::Importer import;
     const aiScene * scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -59,7 +59,7 @@ void ModelTexture::loadModel(std::string path)
     this->_isLoaded = true;
 }
 
-void ModelTexture::processNode(aiNode *node, const aiScene *scene)
+void Model_Texture::processNode(aiNode *node, const aiScene *scene)
 {
     // process all the node's meshes (if any)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -74,7 +74,7 @@ void ModelTexture::processNode(aiNode *node, const aiScene *scene)
     }
 }
 
-std::vector<Texture> ModelTexture::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
+std::vector<Texture> Model_Texture::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
 {
     std::vector<Texture> textures;
     for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -99,13 +99,13 @@ std::vector<Texture> ModelTexture::loadMaterialTextures(aiMaterial *mat, aiTextu
             texture._type = typeName;
             texture._path = str.C_Str();
             textures.push_back(texture);
-            _textureLoaded.push_back(texture);  // store it as texture loaded for entire ModelTexture, to ensure we won't unnecesery load duplicate textures.
+            _textureLoaded.push_back(texture);  // store it as texture loaded for entire Model_Texture, to ensure we won't unnecesery load duplicate textures.
         }
     }
     return textures;
 }
 
-Mesh ModelTexture::processMesh(aiMesh *mesh, const aiScene *scene)
+Mesh Model_Texture::processMesh(aiMesh *mesh, const aiScene *scene)
 {
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
@@ -131,7 +131,7 @@ Mesh ModelTexture::processMesh(aiMesh *mesh, const aiScene *scene)
         {
             glm::vec2 vec;
             // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-            // use ModelTexture where a vertex can have multiple texture coordinates so we always take the first set (0).
+            // use Model_Texture where a vertex can have multiple texture coordinates so we always take the first set (0).
             vec.x = mesh->mTextureCoords[0][i].x; 
             vec.y = mesh->mTextureCoords[0][i].y;
             vertex._texCoords = vec;
@@ -178,7 +178,7 @@ Mesh ModelTexture::processMesh(aiMesh *mesh, const aiScene *scene)
     return Mesh(vertices, indices, textures);
 }
 
-unsigned int ModelTexture::TextureFromFile(const char *path, const std::string &directory)
+unsigned int Model_Texture::TextureFromFile(const char *path, const std::string &directory)
 {
     std::string filename = std::string(path);
     filename = directory + '/' + filename;

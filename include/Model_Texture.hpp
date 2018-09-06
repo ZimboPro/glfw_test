@@ -1,5 +1,5 @@
-#ifndef MODELTEXTURE_HPP
-#define MODELTEXTURE_HPP
+#ifndef MODEL_TEXTURE_HPP
+#define MODEL_TEXTURE_HPP
 
 #include <vector>
 #include <assimp/Importer.hpp>
@@ -10,11 +10,11 @@
 #include <iostream>
 
 class Shaders;
-//! ModelTexture class
+//! Model_Texture class
 /*!
     Stores the data of the models loaded
 */
-class ModelTexture 
+class Model_Texture 
 {
     public:
         /*  Functions   */
@@ -22,14 +22,14 @@ class ModelTexture
          * @brief Construct a new Model Texture object
          * 
          */
-        ModelTexture();
+        Model_Texture();
         /**
          * @brief Construct a new Model Texture object
          * 
          * @param path the path to the model file
          */
-        ModelTexture(char *path);
-        ~ModelTexture();
+        Model_Texture(char *path);
+        ~Model_Texture();
         /**
          * @brief Loads the model
          * 
@@ -56,7 +56,7 @@ class ModelTexture
         std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
         unsigned int TextureFromFile(const char *path, const std::string &directory);
 
-        friend class ModelSprite;
+        friend class Model_Sprite;
         friend class ModelGroup;
 };
 

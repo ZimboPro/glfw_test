@@ -2,8 +2,8 @@
 #define FONT3D_HPP
 
 #include <map>
-#include <ModelTexture.hpp>
-#include <ModelSprite.hpp>
+#include <Model_Texture.hpp>
+#include <Model_Sprite.hpp>
 
 class Camera;
 class Shaders;
@@ -18,7 +18,7 @@ class Font3d
         Font3d();
         ~Font3d();
         static void LoadModels(char b, char e);
-        static std::map<char, ModelSprite *> _letters;
+        static std::map<char, Model_Sprite *> _letters;
         static std::map<char, float> _space;
 };
 

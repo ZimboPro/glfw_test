@@ -1,7 +1,7 @@
 #include <ModelGroup.hpp>
 #include <Shaders.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <ModelTexture.hpp>
+#include <Model_Texture.hpp>
 
 ModelGroup::ModelGroup()
 {
@@ -29,7 +29,7 @@ void ModelGroup::Draw(Shaders & shader)
     for (size_t i = 0; i < this->_models.size(); i++)
     {
         shader.setMat4("model", glm::translate(this->_models[i]._transformationMatrix, this->_position));
-        this->_models[i]._modelTexture->Draw(shader);
+        this->_models[i]._Model_Texture->Draw(shader);
     }
 }
 

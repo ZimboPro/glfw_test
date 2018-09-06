@@ -4,7 +4,7 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <cctype>
 
-std::map<char, ModelSprite *> Font3d::_letters;
+std::map<char, Model_Sprite *> Font3d::_letters;
 std::map<char, float> Font3d::_space;
 
 Font3d::Font3d()
@@ -34,7 +34,7 @@ void Font3d::Draw(Shaders & shader, Camera & camera, int width, int height, cons
 
     for (size_t i = 0; i < str.size(); i++)
     {
-        ModelSprite * temp = _letters[toupper(str.at(i))];
+        Model_Sprite * temp = _letters[toupper(str.at(i))];
         temp->Reset();
         temp->Position(newPosition + camera.Right * xSpacing * 1.15f);
         temp->Scale(scale);
@@ -51,8 +51,8 @@ void Font3d::LoadModels(char b, char e)
     for (char c = b; c <= e; c++)
     {
         std::string p = "../Resources/fonts/" + std::string(1, c) + ".obj";
-        ModelTexture temp(const_cast<char *>(p.c_str()));
-        _letters[toupper(c)] = new ModelSprite(temp);
+        Model_Texture temp(const_cast<char *>(p.c_str()));
+        _letters[toupper(c)] = new Model_Sprite(temp);
         _space[toupper(c)] = 5.0f;
         if (toupper(c) == 'I')
             _space[toupper(c)] = 2.0f;

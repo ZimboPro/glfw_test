@@ -2,14 +2,14 @@
 #define MODELGROUP_HPP
 
 #include <vector>
-#include <ModelSprite.hpp>
+#include <Model_Sprite.hpp>
 #include <glm/glm.hpp>
 
 class Shaders;
 
 //! ModelGroup Class
 /*!
-    Stores a vector of ModelSprites and their positions will be relative to the
+    Stores a vector of Model_Sprites and their positions will be relative to the
     position of ModelGroup
 */
 
@@ -24,10 +24,10 @@ class ModelGroup
         ~ModelGroup();
 
         /**
-         * @brief The vector of stored ModelSprites
+         * @brief The vector of stored Model_Sprites
          * 
          */
-        std::vector<ModelSprite> _models;
+        std::vector<Model_Sprite> _models;
         /**
          * @brief Draws models according to the specified projection and view
          * 

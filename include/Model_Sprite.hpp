@@ -1,42 +1,42 @@
-#ifndef MODELSPRITE_HPP
-#define MODELSPRITE_HPP
+#ifndef MODEL_SPRITE_HPP
+#define MODEL_SPRITE_HPP
 
 #include <iostream>
 #include <vector>
 #include <Structs.hpp>
 
-class ModelTexture;
+class Model_Texture;
 class Shaders;
 class Camera;
 
-//! ModelSprite class
+//! Model_Sprite class
 /*!
     Handles the position, scale and rotation of the model.
     Alos renders the model
 */
 
-class ModelSprite
+class Model_Sprite
 {
     public:
         /**
          * @brief Construct a new Model Sprite object
          * 
          */
-        ModelSprite();
+        Model_Sprite();
         /**
          * @brief Construct a new Model Sprite object
          * 
-         * @param modelTexture 
+         * @param Model_Texture 
          */
-        ModelSprite(ModelTexture & modelTexture);
-        ~ModelSprite();
+        Model_Sprite(Model_Texture & Model_Texture);
+        ~Model_Sprite();
 
         /**
          * @brief Load the model texture
          * 
-         * @param modelTexture 
+         * @param Model_Texture 
          */
-        void LoadModelTexture(ModelTexture & modelTexture);
+        void LoadModel_Texture(Model_Texture & Model_Texture);
         /**
          * @brief Set the Gamma object
          * 
@@ -146,7 +146,7 @@ class ModelSprite
 
 
     private:
-        ModelTexture * _modelTexture;
+        Model_Texture * _Model_Texture;
         bool _gammaCorrection;
 
         glm::vec3 _scale;

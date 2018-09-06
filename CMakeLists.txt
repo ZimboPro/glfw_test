@@ -123,8 +123,8 @@ add_library(
     src/TextureImages.cpp
     src/Camera.cpp
     src/Mesh.cpp
-    src/ModelTexture.cpp
-    src/ModelSprite.cpp
+    src/Model_Texture.cpp
+    src/Model_Sprite.cpp
     src/ModelGroup.cpp
     src/Font3d.cpp
     src/Log.cpp
