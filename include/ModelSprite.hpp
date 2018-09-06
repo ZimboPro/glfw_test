@@ -117,6 +117,26 @@ class ModelSprite
          */
         void Move(const float &x, const float &y, const float &z = 0, const float & degree = 0);
 
+        /**
+         * @brief Get the Postion object
+         * 
+         * @return glm::vec3 
+         */
+        glm::vec3 GetPostion() const;
+        /**
+         * @brief Get the Scale object
+         * 
+         * @return glm::vec3 
+         */
+        glm::vec3 GetScale() const;
+        /**
+         * @brief Get the Rotation object
+         * 
+         * @return float 
+         */
+        float GetRotation() const;
+
+
     private:
         ModelTexture * _modelTexture;
         bool _gammaCorrection;
