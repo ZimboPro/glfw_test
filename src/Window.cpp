@@ -250,5 +250,5 @@ bool Window::isInitialised()
 
 glm::mat4 Window::Projection()
 {
-    return glm::ortho(0.0f, static_cast<GLfloat>(this->_width), 0.0f, static_cast<GLfloat>(this->_height));
+    return glm::ortho(static_cast<GLfloat>( -(this->_width >> 1)), static_cast<GLfloat>(this->_width >> 1), static_cast<GLfloat>( -(this->_height >> 1)), static_cast<GLfloat>(this->_height >> 1));
 }
