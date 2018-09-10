@@ -29,6 +29,12 @@ class Model_Sprite
          * @param Model_Texture 
          */
         Model_Sprite(Model_Texture & Model_Texture);
+        /**
+         * @brief Construct a new Model Sprite object
+         * 
+         * @param path 
+         */
+        Model_Sprite(char * path);
         ~Model_Sprite();
 
         /**
@@ -148,6 +154,7 @@ class Model_Sprite
     private:
         Model_Texture * _Model_Texture;
         bool _gammaCorrection;
+        bool _delete;
 
         glm::vec3 _scale;
         glm::vec3 _position;

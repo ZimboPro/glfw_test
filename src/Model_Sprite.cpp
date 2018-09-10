@@ -6,6 +6,17 @@
 Model_Sprite::Model_Sprite()
 {
     this->_Model_Texture = nullptr;
+    this->_delete = false;
+    Position(0, 0);
+    Scale(1);
+    Rotate(0);
+    SetGamma();
+}
+
+Model_Sprite::Model_Sprite(char * path)
+{
+    this->_Model_Texture = new Model_Texture(path);
+    this->_delete = true;
     Position(0, 0);
     Scale(1);
     Rotate(0);
@@ -19,10 +30,14 @@ Model_Sprite::Model_Sprite(Model_Texture & Model_Texture)
     Rotate(0);
     LoadModel_Texture(Model_Texture);
     SetGamma();
+    this->_delete = false;
 }
 
 Model_Sprite::~Model_Sprite()
-{}
+{
+    if (this->_delete)
+        delete this->_Model_Texture;
+}
 
 void Model_Sprite::LoadModel_Texture(Model_Texture & Model_Texture)
 {

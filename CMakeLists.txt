@@ -75,6 +75,19 @@ if(NOT glm_POPULATED)
   FetchContent_Populate(glm)
 endif()
 
+# Freetype2
+FetchContent_Declare(
+    freetype2
+    URL https://download.savannah.gnu.org/releases/freetype/freetype-2.9.1.tar.gz
+)
+
+FetchContent_GetProperties(freetype2)
+
+if(NOT freetype2)
+  FetchContent_Populate(freetype2)
+  add_subdirectory(${freetype2_SOURCE_DIR} ${freetype2_BINARY_DIR})
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 
@@ -102,18 +115,7 @@ if(NOT assimp_POPULATED)
   add_subdirectory(${assimp_SOURCE_DIR} ${assimp_BINARY_DIR})
 endif()
 
-# Freetype2
-FetchContent_Declare(
-    freetype2
-    URL https://download.savannah.gnu.org/releases/freetype/freetype-2.9.1.tar.gz
-)
 
-FetchContent_GetProperties(freetype2)
-
-if(NOT freetype2)
-  FetchContent_Populate(freetype2)
-  add_subdirectory(${freetype2_SOURCE_DIR} ${freetype2_BINARY_DIR})
-endif()
 
 # library
 add_library(
