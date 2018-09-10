@@ -63,6 +63,12 @@ void Model_Sprite::Draw(const Shaders & shader)
     this->_Model_Texture->Draw(shader);
 }
 
+void Model_Sprite::DrawScaledBy(const Shaders & shader, float scale)
+{
+    shader.setMat4("model", glm::scale(this->_transformationMatrix, glm::vec3(scale)));
+    this->_Model_Texture->Draw(shader);
+}
+
 void Model_Sprite::Position(const glm::vec3 & position)
 {
     this->_position = position;

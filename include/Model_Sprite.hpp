@@ -66,6 +66,13 @@ class Model_Sprite
         void Draw(const Shaders & shader);
 
         /**
+         * @brief Draws the model
+         * 
+         * @param shader 
+         */
+        void DrawScaledBy(const Shaders & shader, float scale);
+
+        /**
          * @brief Sets the position of the model
          * 
          * @param position 
