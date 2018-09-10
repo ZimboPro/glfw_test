@@ -96,7 +96,7 @@ void Window::update()
     glfwPollEvents();
 }
 
-bool failed(char  * str)
+bool failed(std::string str)
 {
     std::cout << str << std::endl;
     return false;
@@ -161,12 +161,12 @@ void Window::windowHints()
 bool Window::Init()
 {
     if (!glfwInit())
-        return failed("GameEngine failed to initialise");
+        return failed(R"(GameEngine failed to initialise)");
     windowHints();
 
     this->_win = glfwCreateWindow(this->_width, this->_height,this->_title, NULL, NULL);
     if (!this->_win)
-        return failed("Failed to create window");
+        return failed(R"(Failed to create window)");
     
     setCallback();
     return InitGlad();
@@ -175,7 +175,7 @@ bool Window::Init()
 bool Window::InitGlad()
 {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        return failed("Failed to initialize GLAD");
+        return failed(R"(Failed to initialize GLAD)");
     glEnable(GL_DEPTH_TEST);
     return true;
 }
@@ -250,5 +250,5 @@ bool Window::isInitialised()
 
 glm::mat4 Window::Projection()
 {
-    return glm::ortho(static_cast<GLfloat>( -(this->_width >> 1)), static_cast<GLfloat>(this->_width >> 1), static_cast<GLfloat>( -(this->_height >> 1)), static_cast<GLfloat>(this->_height >> 1));
+    return glm::ortho(0.0f, static_cast<GLfloat>(this->_width), 0.0f, static_cast<GLfloat>(this->_height), 0.0f, 100.0f);
 }
