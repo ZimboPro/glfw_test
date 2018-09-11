@@ -119,7 +119,7 @@ void Model_Sprite::Move(const float & x, const float & y, const float & z, const
     Rotate(this->_degrees);
 }
 
-glm::vec3 Model_Sprite::GetPostion() const
+glm::vec3 Model_Sprite::GetPosition() const
 {
     return this->_position;
 }

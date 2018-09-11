@@ -133,6 +133,7 @@ add_library(
     src/Text.cpp
     src/SpriteRender.cpp
     src/Window.cpp
+    src/Juicy.cpp
 
     ${glad_SOURCE_DIR}/src/glad.c
 )

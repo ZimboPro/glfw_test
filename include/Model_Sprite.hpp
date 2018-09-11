@@ -135,7 +135,7 @@ class Model_Sprite
          * 
          * @return glm::vec3 
          */
-        glm::vec3 GetPostion() const;
+        glm::vec3 GetPosition() const;
         /**
          * @brief Get the Scale object
          * 
