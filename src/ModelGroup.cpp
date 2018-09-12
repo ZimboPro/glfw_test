@@ -20,7 +20,7 @@ void ModelGroup::DrawView(Shaders & shader, glm::mat4 projection, glm::mat4 view
     shader.setMat4("view", view);
     for (size_t i = 0; i < this->_models.size(); i++)
     {
-        this->_models[i].Draw(shader);
+        this->_models[i]->Draw(shader);
     }
 }
 
@@ -28,8 +28,8 @@ void ModelGroup::Draw(Shaders & shader)
 {
     for (size_t i = 0; i < this->_models.size(); i++)
     {
-        shader.setMat4("model", glm::translate(this->_models[i]._transformationMatrix, this->_position));
-        this->_models[i]._Model_Texture->Draw(shader);
+        shader.setMat4("model", glm::translate(this->_models[i]->_transformationMatrix, this->_position));
+        this->_models[i]->_Model_Texture->Draw(shader);
     }
 }
 

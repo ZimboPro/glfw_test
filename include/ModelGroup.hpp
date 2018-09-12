@@ -27,7 +27,7 @@ class ModelGroup
          * @brief The vector of stored Model_Sprites
          * 
          */
-        std::vector<Model_Sprite> _models;
+        std::vector<Model_Sprite *> _models;
         /**
          * @brief Draws models according to the specified projection and view
          * 
