@@ -3,6 +3,7 @@
 #include <stb_image.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <GraphicsErrors.hpp>
 
 Model_Texture::Model_Texture()
 {
@@ -49,9 +50,8 @@ void Model_Texture::loadModel(std::string path)
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
-        std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
         this->_isLoaded = false;
-        return;
+        throw GraphicsErrors::AssimpError(import.GetErrorString());
     }
     this->_directory = path.substr(0, path.find_last_of('/'));
 
@@ -213,9 +213,9 @@ unsigned int Model_Texture::TextureFromFile(const char *path, const std::string 
     }
     else
     {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
         this->_isLoaded = false;
         stbi_image_free(data);
+        throw GraphicsErrors::TextureFailed(path);
     }
 
     return textureID;

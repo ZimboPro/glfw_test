@@ -115,6 +115,8 @@ class Camera
          */
         void SetShaderView(Shaders & shader, int width, int height);
 
+        void Move(float &x, float &y, float &z);
+
     private:
         void updateCameraVectors();
 };
