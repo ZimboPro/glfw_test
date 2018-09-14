@@ -51,7 +51,7 @@ void Model_Texture::loadModel(std::string path)
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
         this->_isLoaded = false;
-        throw GraphicsErrors::AssimpError(import.GetErrorString());
+        throw std::logic_error(std::string("ASSIMP ERROR: ") + import.GetErrorString());
     }
     this->_directory = path.substr(0, path.find_last_of('/'));
 
@@ -215,7 +215,7 @@ unsigned int Model_Texture::TextureFromFile(const char *path, const std::string 
     {
         this->_isLoaded = false;
         stbi_image_free(data);
-        throw GraphicsErrors::TextureFailed(path);
+        throw std::logic_error(std::string("Texture not loaded: ") + path);
     }
 
     return textureID;
