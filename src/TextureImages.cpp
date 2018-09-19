@@ -2,10 +2,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <glad/glad.h>
+#include <Coplien.hpp>
 
 TextureImages::TextureImages()
 {
-    
     stbi_set_flip_vertically_on_load(true);
     Init();
 }
@@ -17,9 +17,28 @@ TextureImages::TextureImages(const std::string & file)
     Load(file);
 }
 
+TextureImages::TextureImages(const TextureImages & src)
+{
+    *this = src;
+}
+
 TextureImages::~TextureImages()
 {
     glDeleteTextures(1, &this->_ID);
+}
+
+TextureImages & TextureImages::operator=(const TextureImages & src)
+{
+    if (this != &src)
+    {
+        copy(this->_file, src._file);
+        copy(this->_data, src._data);
+        copy(this->_ID, src._ID);
+        copy(this->_height, src._height);
+        copy(this->_width, src._width);
+        copy(this->_channel, src._channel);
+    }
+    return *this;
 }
 
 void TextureImages::Init()

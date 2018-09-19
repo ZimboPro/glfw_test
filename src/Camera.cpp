@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Shaders.hpp>
 #include <stdexcept>
+#include <Coplien.hpp>
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
@@ -19,6 +20,32 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
     Yaw = yaw;
     Pitch = pitch;
     updateCameraVectors();
+}
+
+Camera::Camera(const Camera & src)
+{
+    *this = src;
+}
+
+Camera::~Camera()
+{}
+
+Camera & Camera::operator=(const Camera & src)
+{
+    if (this != &src)
+    {
+        copy(this->Position, src.Position);
+        copy(this->Front, src.Front);
+        copy(this->Up, src.Up);
+        copy(this->Right, src.Right);
+        copy(this->WorldUp, src.WorldUp);
+        copy(this->Yaw, src.Yaw);
+        copy(this->Pitch, src.Pitch);
+        copy(this->MovementSpeed, src.MovementSpeed);
+        copy(this->MouseSensitivity, src.MouseSensitivity);
+        copy(this->Zoom, src.Zoom);
+    }
+    return *this;
 }
 
 glm::mat4 Camera::GetViewMatrix()

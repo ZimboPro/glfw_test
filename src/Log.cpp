@@ -5,12 +5,6 @@
 
 std::string Log::_path;
 
-Log::Log()
-{}
-
-Log::~Log()
-{}
-
 void Log::Init()
 {
     if (_path.size() == 0)

@@ -2,9 +2,15 @@
 #include <Shaders.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <Coplien.hpp>
 
 Text::Text()
 {}
+
+Text::Text(const Text & src)
+{
+    *this = src;
+}
 
 Text::Text(const char * file)
 {
@@ -13,6 +19,19 @@ Text::Text(const char * file)
 
 Text::~Text()
 {}
+
+Text & Text::operator=(const Text & src)
+{
+    if (this != &src)
+    {
+        copy(this->_characters, src._characters);
+        copy(this->_VAO, src._VAO);
+        copy(this->_VBO, src._VBO);
+        copy(this->_ft, src._ft);
+        copy(this->_face, src._face);
+    }
+    return *this;
+}
 
 void Text::Load(const char * file)
 {

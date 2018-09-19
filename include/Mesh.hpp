@@ -16,7 +16,10 @@ class Mesh
         std::vector<Texture> _textures;
 
         Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+        Mesh(const Mesh & src);
         ~Mesh();
+
+        Mesh & operator=(const Mesh & src);
         void Draw(Shaders shader);
     private:
         unsigned int VAO;

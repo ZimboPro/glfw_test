@@ -73,6 +73,9 @@ class Camera
          * @param pitch 
          */
         Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+        Camera(const Camera & src);
+        ~Camera();
+        Camera & operator=(const Camera & src);
         /**
          * @brief Get the View Matrix object produced by this instance of the camera
          * 

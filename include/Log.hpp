@@ -20,8 +20,6 @@ class Log
     
     private:
         static void Init();
-        Log();
-        ~Log();
 
         static std::string _path;
 };

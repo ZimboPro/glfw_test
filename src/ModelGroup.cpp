@@ -2,15 +2,31 @@
 #include <Shaders.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <Model_Texture.hpp>
+#include <Coplien.hpp>
 
 ModelGroup::ModelGroup()
 {
     this->_position = glm::vec3(0);
 }
 
+ModelGroup::ModelGroup(const ModelGroup & src)
+{
+    *this = src;
+}
+
 ModelGroup::~ModelGroup()
 {
     this->_models.clear();
+}
+
+ModelGroup & ModelGroup::operator=(const ModelGroup & src)
+{
+    if (this != &src)
+    {
+        copy(this->_models, src._models);
+        copy(this->_position, src._position);
+    }
+    return *this;
 }
 
 void ModelGroup::DrawView(Shaders & shader, glm::mat4 projection, glm::mat4 view)

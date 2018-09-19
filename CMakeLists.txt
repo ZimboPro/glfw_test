@@ -150,7 +150,7 @@ add_library(
     src/Model_Texture.cpp
     src/Model_Sprite.cpp
     src/ModelGroup.cpp
-    src/Font3d.cpp
+    # src/Font3d.cpp
     src/Log.cpp
     src/Text.cpp
     src/SpriteRender.cpp

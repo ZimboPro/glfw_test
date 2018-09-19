@@ -18,7 +18,10 @@ class Shaders
          * @param fragpath to the Fragment Shader file
          */
         Shaders(const std::string & vertexpath, const std::string & fragpath);
+        Shaders(const Shaders & src);
         ~Shaders();
+
+        Shaders & operator=(const Shaders & src);
 
         /**
          * @brief Binds the the shader

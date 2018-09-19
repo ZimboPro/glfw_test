@@ -4,10 +4,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <GraphicsErrors.hpp>
+#include <Coplien.hpp>
 
 Model_Texture::Model_Texture()
 {
     this->_isLoaded = false;
+}
+
+Model_Texture::Model_Texture(const Model_Texture & src)
+{
+    *this = src;
 }
 
 Model_Texture::Model_Texture(char *path)
@@ -25,6 +31,18 @@ Model_Texture::~Model_Texture()
     }        
     this->_meshes.clear();
     this->_textureLoaded.clear();
+}
+
+Model_Texture & Model_Texture::operator=(const Model_Texture & src)
+{
+    if (this != &src)
+    {
+        copy(this->_isLoaded, src._isLoaded);
+        copy(this->_meshes, src._meshes);
+        copy(this->_textureLoaded, src._textureLoaded);
+        copy(this->_directory, src._directory);
+    }
+    return *this;
 }
 
 bool Model_Texture::IsLoaded() const

@@ -2,6 +2,7 @@
 #include <Model_Texture.hpp>
 #include <Shaders.hpp>
 #include <Camera.hpp>
+#include <Coplien.hpp>
 
 Model_Sprite::Model_Sprite()
 {
@@ -11,6 +12,11 @@ Model_Sprite::Model_Sprite()
     Scale(1);
     Rotate(0);
     SetGamma();
+}
+
+Model_Sprite::Model_Sprite(const Model_Sprite & src)
+{
+    *this = src;
 }
 
 Model_Sprite::Model_Sprite(char * path)
@@ -37,6 +43,21 @@ Model_Sprite::~Model_Sprite()
 {
     if (this->_delete)
         delete this->_Model_Texture;
+}
+
+Model_Sprite & Model_Sprite::operator=(const Model_Sprite & src)
+{
+    if (this != & src)
+    {
+        copy(*this->_Model_Texture, *src._Model_Texture);
+        copy(this->_gammaCorrection, src._gammaCorrection);
+        copy(this->_delete, src._delete);
+        copy(this->_scale, src._scale);
+        copy(this->_position, src._position);
+        copy(this->_transformationMatrix, src._transformationMatrix);
+        copy(this->_degrees, src._degrees);
+    }
+    return *this;
 }
 
 void Model_Sprite::LoadModel_Texture(Model_Texture & Model_Texture)

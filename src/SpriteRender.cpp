@@ -1,7 +1,7 @@
 #include <SpriteRender.hpp>
 #include <TextureImages.hpp>
 #include <glm/gtx/transform.hpp>
-
+#include <Coplien.hpp>
 
 SpriteRender::SpriteRender(Shaders &shader)
 {
@@ -9,9 +9,24 @@ SpriteRender::SpriteRender(Shaders &shader)
     this->initRenderData();
 }
 
+SpriteRender::SpriteRender(const SpriteRender & src)
+{
+    *this = src;
+}
+
 SpriteRender::~SpriteRender()
 {
     glDeleteVertexArrays(1, &this->_quadVAO);
+}
+
+SpriteRender & SpriteRender::operator=(const SpriteRender & src)
+{
+    if (this != &src)
+    {
+        copy(*this->_shader, *src._shader);
+        copy(this->_quadVAO, src._quadVAO);
+    }
+    return *this;
 }
 
 void SpriteRender::Enable()

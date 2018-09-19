@@ -22,6 +22,7 @@ class TextureImages
          * @param file , is the file path of the image
          */
         TextureImages(const std::string & file);
+        TextureImages(const TextureImages & src);
         ~TextureImages();
         /**
          * @brief Binds the texture in memory to be used when drawn
@@ -29,6 +30,7 @@ class TextureImages
          */
         void Bind();
         void Load(const std::string & file);
+        TextureImages & operator=(const TextureImages & src);
     private:
         void Init();
         std::string _file;

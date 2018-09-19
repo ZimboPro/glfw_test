@@ -21,7 +21,9 @@ class ModelGroup
          * 
          */
         ModelGroup();
+        ModelGroup(const ModelGroup & src);
         ~ModelGroup();
+        ModelGroup & operator=(const ModelGroup & src);
 
         /**
          * @brief The vector of stored Model_Sprites

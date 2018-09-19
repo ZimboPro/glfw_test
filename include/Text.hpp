@@ -29,6 +29,7 @@ class Text
          * 
          */
         Text();
+        Text(const Text & src);
         /**
          * @brief Construct a new Text object
          * 
@@ -36,6 +37,8 @@ class Text
          */
         Text(const char * file);
         ~Text();
+
+        Text & operator=(const Text & src);
         /**
          * @brief Loads the font data file
          * 

@@ -23,6 +23,7 @@ class Model_Sprite
          * 
          */
         Model_Sprite();
+        Model_Sprite(const Model_Sprite & src);
         /**
          * @brief Construct a new Model Sprite object
          * 
@@ -37,6 +38,7 @@ class Model_Sprite
         Model_Sprite(char * path);
         ~Model_Sprite();
 
+        Model_Sprite & operator=(const Model_Sprite & src);
         /**
          * @brief Load the model texture
          * 

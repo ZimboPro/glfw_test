@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 #include <glm/gtc/matrix_transform.hpp>
+#include <Coplien.hpp>
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -43,9 +44,34 @@ Window::Window(const char *title, unsigned int w, unsigned int h) : _title(title
     InitButtons();
 }
 
+Window::Window(const Window & src) : _title(src._title)
+{
+    *this = src;
+}
+
 Window::~Window()
 {
     glfwTerminate();
+}
+
+Window & Window::operator=(const Window & src)
+{
+    if (this != &src)
+    {
+        copy(this->_width, src._width);
+        copy(this->_height, src._height);
+        copy(this->_win, src._win);
+        copy(this->_isInitialised, src._isInitialised);
+        copyArr(this->_keys, src._keys);
+        copyArr(this->_keyState, src._keyState);
+        copyArr(this->_keyTyped, src._keyTyped);
+        copyArr(this->_buttons, src._buttons);
+        copyArr(this->_buttonState, src._buttonState);
+        copyArr(this->_buttonClicked, src._buttonClicked);
+        copy(this->_mouseX, src._mouseX);
+        copy(this->_mouseY, src._mouseY);
+    }
+    return *this;
 }
 
 void Window::InitKeys()

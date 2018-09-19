@@ -21,8 +21,10 @@ class SpriteRender
      * @param shader 
      */
     SpriteRender(Shaders &shader);
+    SpriteRender(const SpriteRender & src);
     // Destructor
     ~SpriteRender();
+    SpriteRender & operator=(const SpriteRender & src);
     // Renders a defined quad textured with given sprite
     /**
      * @brief Draws the sprite and texture, origin is the lower left corner

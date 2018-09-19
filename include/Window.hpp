@@ -24,7 +24,9 @@ class Window
          * @param h 
          */
         Window(const char * title, unsigned int w, unsigned int h);
+        Window(const Window & src);
         ~Window();
+        Window & operator=(const Window & src);
         /**
          * @brief Updates the window
          * 

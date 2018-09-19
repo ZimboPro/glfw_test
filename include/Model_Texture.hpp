@@ -23,6 +23,8 @@ class Model_Texture
          * 
          */
         Model_Texture();
+        Model_Texture(const Model_Texture & src);
+        Model_Texture & operator=(const Model_Texture & src);
         /**
          * @brief Construct a new Model Texture object
          * 

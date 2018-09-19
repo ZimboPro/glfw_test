@@ -5,6 +5,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <glm/gtc/type_ptr.hpp>
+#include <Coplien.hpp>
 
 Shaders::Shaders(const std::string & vertexpath, const std::string & fragpath)
 {
@@ -20,8 +21,22 @@ Shaders::Shaders(const std::string & vertexpath, const std::string & fragpath)
 	CreateShaderProgam(vs,fs);
 }
 
+Shaders::Shaders(const Shaders & src)
+{
+	*this = src;
+}
+
 Shaders::~Shaders()
 {}
+
+Shaders & Shaders::operator=(const Shaders & src)
+{
+	if (this != &src)
+	{
+		copy(this->_ID, src._ID);
+	}
+	return *this;
+}
 
 std::string const Shaders::GetSource(const std::string & path)
 {
