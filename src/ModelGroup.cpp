@@ -16,7 +16,8 @@ ModelGroup::ModelGroup(const ModelGroup & src)
 
 ModelGroup::~ModelGroup()
 {
-    this->_models.clear();
+    for (size_t i = 0; i < this->_models.size(); i++)
+        delete this->_models[i];
 }
 
 ModelGroup & ModelGroup::operator=(const ModelGroup & src)

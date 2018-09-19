@@ -48,14 +48,14 @@ class Model_Texture
 
     private:
         bool _isLoaded;
-        std::vector<Mesh> _meshes;
+        std::vector<Mesh *> _meshes;
         std::vector<Texture> _textureLoaded;
         std::string _directory;
 
         void Draw(const Shaders & shader);	
         void processNode(aiNode *node, const aiScene *scene);
-        Mesh processMesh(aiMesh *mesh, const aiScene *scene);
-        std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
+        void processMesh(aiMesh *mesh, const aiScene *scene);
+        void loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::vector<Texture> & textures);
         unsigned int TextureFromFile(const char *path, const std::string &directory);
 
         friend class Model_Sprite;

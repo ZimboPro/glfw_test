@@ -2,12 +2,8 @@
 #include <Shaders.hpp>
 #include <Coplien.hpp>
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> & vertices, std::vector<unsigned int> & indices, std::vector<Texture> & textures) : _vertices(vertices), _indices(indices), _textures(textures)
 {
-    this->_vertices = vertices;
-    this->_indices = indices;
-    this->_textures = textures;
-
     setupMesh();
 }
 
@@ -17,11 +13,7 @@ Mesh::Mesh(const Mesh & src)
 }
 
 Mesh::~Mesh()
-{
-    this->_indices.clear();
-    this->_textures.clear();
-    this->_vertices.clear();
-}
+{}
 
 Mesh & Mesh::operator=(const Mesh & src)
 {

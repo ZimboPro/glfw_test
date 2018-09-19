@@ -25,12 +25,13 @@ Model_Texture::~Model_Texture()
 {
     for (size_t i = 0; i < this->_meshes.size(); i++)
     {
-        glDeleteVertexArrays(1, &this->_meshes[i].VAO);
-        glDeleteBuffers(1, &this->_meshes[i].VBO);
-        glDeleteBuffers(1, &this->_meshes[i].EBO);
-    }        
-    this->_meshes.clear();
-    this->_textureLoaded.clear();
+        glDeleteVertexArrays(1, &this->_meshes[i]->VAO);
+        glDeleteBuffers(1, &this->_meshes[i]->VBO);
+        glDeleteBuffers(1, &this->_meshes[i]->EBO);
+        delete this->_meshes[i];
+    }
+    // this->_meshes.clear();
+    // this->_textureLoaded.clear();
 }
 
 Model_Texture & Model_Texture::operator=(const Model_Texture & src)
@@ -55,7 +56,7 @@ void Model_Texture::Draw(const Shaders & shader)
     if (this->_isLoaded)
     {
         for (size_t i = 0; i < this->_meshes.size(); i++)
-            this->_meshes[i].Draw(shader);
+            this->_meshes[i]->Draw(shader);
     }
     else
         throw GraphicsErrors::TextureNotLoaded(this->_directory);
@@ -83,7 +84,7 @@ void Model_Texture::processNode(aiNode *node, const aiScene *scene)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]]; 
-        this->_meshes.push_back(processMesh(mesh, scene));			
+        processMesh(mesh, scene);			
     }
     // then do the same for each of its children
     for(unsigned int i = 0; i < node->mNumChildren; i++)
@@ -92,9 +93,8 @@ void Model_Texture::processNode(aiNode *node, const aiScene *scene)
     }
 }
 
-std::vector<Texture> Model_Texture::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
+void Model_Texture::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::vector<Texture> & textures)
 {
-    std::vector<Texture> textures;
     for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
     {
         aiString str;
@@ -120,10 +120,9 @@ std::vector<Texture> Model_Texture::loadMaterialTextures(aiMaterial *mat, aiText
             _textureLoaded.push_back(texture);  // store it as texture loaded for entire Model_Texture, to ensure we won't unnecesery load duplicate textures.
         }
     }
-    return textures;
 }
 
-Mesh Model_Texture::processMesh(aiMesh *mesh, const aiScene *scene)
+void Model_Texture::processMesh(aiMesh *mesh, const aiScene *scene)
 {
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
@@ -180,20 +179,24 @@ Mesh Model_Texture::processMesh(aiMesh *mesh, const aiScene *scene)
     // process materials
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];    
     
-    std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+    std::vector<Texture> diffuseMaps;
+    loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", diffuseMaps);
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
     // 2. specular maps
-    std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+    std::vector<Texture> specularMaps;
+    loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", specularMaps);
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     // 3. normal maps
-    std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+    std::vector<Texture> normalMaps;
+    loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", normalMaps);
     textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
     // 4. height maps
-    std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+    std::vector<Texture> heightMaps;
+    loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", heightMaps);
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
     
     // return a mesh object created from the extracted mesh data
-    return Mesh(vertices, indices, textures);
+    this->_meshes.push_back(new Mesh(vertices, indices, textures));
 }
 
 unsigned int Model_Texture::TextureFromFile(const char *path, const std::string &directory)
