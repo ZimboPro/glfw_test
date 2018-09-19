@@ -13,6 +13,12 @@ class TextureImages
         /**
          * @brief Construct a new Texture Images object
          * 
+         * 
+         */
+        TextureImages();
+        /**
+         * @brief Construct a new Texture Images object
+         * 
          * @param file , is the file path of the image
          */
         TextureImages(const std::string & file);
@@ -22,8 +28,9 @@ class TextureImages
          * 
          */
         void Bind();
+        void Load(const std::string & file);
     private:
-        void Load();
+        void Init();
         std::string _file;
         unsigned int _ID;
         unsigned char * _data;
