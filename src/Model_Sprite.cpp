@@ -78,13 +78,13 @@ void Model_Sprite::DrawView(Shaders & shader, glm::mat4 perspective, glm::mat4 v
     Draw(shader);
 }
 
-void Model_Sprite::Draw(const Shaders & shader)
+void Model_Sprite::Draw(Shaders & shader)
 {
     shader.setMat4("model", this->_transformationMatrix);
     this->_Model_Texture->Draw(shader);
 }
 
-void Model_Sprite::DrawScaledBy(const Shaders & shader, float scale)
+void Model_Sprite::DrawScaledBy(Shaders & shader, float scale)
 {
     shader.setMat4("model", glm::scale(this->_transformationMatrix, glm::vec3(scale)));
     this->_Model_Texture->Draw(shader);

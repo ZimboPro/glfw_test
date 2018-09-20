@@ -63,7 +63,7 @@ class Model_Texture
         std::vector<Texture> _textureLoaded;
         std::string _directory;
 
-        void Draw(const Shaders & shader);	
+        void Draw(Shaders & shader);	
         void processNode(aiNode *node, const aiScene *scene);
         void processMesh(aiMesh *mesh, const aiScene *scene);
         void loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::vector<Texture> & textures);

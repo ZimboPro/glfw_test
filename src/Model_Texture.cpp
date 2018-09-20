@@ -51,7 +51,7 @@ bool Model_Texture::IsLoaded() const
     return this->_isLoaded;
 }
 
-void Model_Texture::Draw(const Shaders & shader)
+void Model_Texture::Draw(Shaders & shader)
 {
     if (this->_isLoaded)
     {
