@@ -18,9 +18,19 @@ class Shaders
          * @param fragpath to the Fragment Shader file
          */
         Shaders(const std::string & vertexpath, const std::string & fragpath);
+        /**
+         * @brief Construct a new Shaders object
+         * 
+         * @param src The instance to copy
+         */
         Shaders(const Shaders & src);
         ~Shaders();
-
+        /**
+         * @brief Assign the data in the right instance to the left
+         * 
+         * @param src 
+         * @return Shaders& 
+         */
         Shaders & operator=(const Shaders & src);
 
         /**

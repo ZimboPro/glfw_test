@@ -24,8 +24,19 @@ class Window
          * @param h 
          */
         Window(const char * title, unsigned int w, unsigned int h);
+        /**
+         * @brief Construct a new Window object
+         * 
+         * @param src The instance to copy
+         */
         Window(const Window & src);
         ~Window();
+        /**
+         * @brief Assign the data in the right instance to the left
+         * 
+         * @param src 
+         * @return Window& 
+         */
         Window & operator=(const Window & src);
         /**
          * @brief Updates the window
@@ -35,8 +46,8 @@ class Window
         /**
          * @brief Checks to see if the window has closed. Returns true if true
          * 
-         * @return true 
-         * @return false 
+         * @return true Window has been closed
+         * @return false Window is still open
          */
         bool closed();
         /**
@@ -98,32 +109,32 @@ class Window
          * @brief Is the Key being pressed
          * 
          * @param keycode is the GLFW_KEY enums
-         * @return true 
-         * @return false 
+         * @return true Key is being pressed
+         * @return false Key is not being pressed
          */
         bool isKeyPressed(int keycode) ;
         /**
          * @brief Is the Key being typed
          * 
          * @param keycode is the GLFW_KEY enums
-         * @return true 
-         * @return false 
+         * @return true Key has been pressed and released
+         * @return false Key has not been pressed and released
          */
         bool isKeyTyped(int keycode) ;
         /**
-         * @brief Is the Button being pressed
+         * @brief Is the Mouse Button being pressed
          * 
          * @param button is the GLFW_BUTTON enums
-         * @return true 
-         * @return false 
+         * @return true Mouse Button has been pressed
+         * @return false Mouse Button has not been pressed
          */
         bool isButtonPressed(int button) ;
         /**
          * @brief Is the Button being clicked
          * 
          * @param button is the GLFW_BUTTON enums
-         * @return true 
-         * @return false 
+         * @return true Mouse Button has been pressed and released
+         * @return false Mouse Button has not been pressed and released
          */
         bool isButtonClicked(int button) ;
         /**
@@ -135,10 +146,10 @@ class Window
         void CursorPostion(double &x, double & y) ;
 
         /**
-         * @brief Is the window initialised, return true if it has
+         * @brief Is the window initialised
          * 
-         * @return true 
-         * @return false 
+         * @return true Window has been initialised
+         * @return false Window has not been initialised
          */
 
         bool isInitialised();

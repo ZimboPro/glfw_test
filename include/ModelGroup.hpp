@@ -21,10 +21,20 @@ class ModelGroup
          * 
          */
         ModelGroup();
+        /**
+         * @brief Construct a new Model Group object
+         * 
+         * @param src The Instance to make a copy of
+         */
         ModelGroup(const ModelGroup & src);
         ~ModelGroup();
+        /**
+         * @brief Assigns the data in the right instance to the left instance
+         * 
+         * @param src 
+         * @return ModelGroup& 
+         */
         ModelGroup & operator=(const ModelGroup & src);
-
         /**
          * @brief The vector of stored Model_Sprites
          * 

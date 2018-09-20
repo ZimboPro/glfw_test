@@ -23,7 +23,18 @@ class Model_Texture
          * 
          */
         Model_Texture();
+        /**
+         * @brief Construct a new Model_Texture object
+         * 
+         * @param src The instance to copy
+         */
         Model_Texture(const Model_Texture & src);
+        /**
+         * @brief Assign the data in the right instance to the left
+         * 
+         * @param src 
+         * @return Model_Texture& 
+         */
         Model_Texture & operator=(const Model_Texture & src);
         /**
          * @brief Construct a new Model Texture object
@@ -39,10 +50,10 @@ class Model_Texture
          */
         void loadModel(std::string path);
         /**
-         * @brief Returns true if a model has been loaded
+         * @brief Checks if model has been loaded
          * 
-         * @return true 
-         * @return false 
+         * @return true Model is loaded
+         * @return false Model is not loaded
          */
         bool IsLoaded() const;
 

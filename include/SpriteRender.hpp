@@ -21,9 +21,20 @@ class SpriteRender
      * @param shader 
      */
     SpriteRender(Shaders &shader);
+    /**
+     * @brief Construct a new Sprite Render object
+     * 
+     * @param src The instance to copy
+     */
     SpriteRender(const SpriteRender & src);
     // Destructor
     ~SpriteRender();
+    /**
+     * @brief Assign the data in the right instance to the left
+     * 
+     * @param src 
+     * @return SpriteRender& 
+     */
     SpriteRender & operator=(const SpriteRender & src);
     // Renders a defined quad textured with given sprite
     /**

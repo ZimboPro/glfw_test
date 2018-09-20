@@ -29,6 +29,11 @@ class Text
          * 
          */
         Text();
+        /**
+         * @brief Construct a new Text object
+         * 
+         * @param src The instance to copy
+         */
         Text(const Text & src);
         /**
          * @brief Construct a new Text object
@@ -37,7 +42,12 @@ class Text
          */
         Text(const char * file);
         ~Text();
-
+        /**
+         * @brief Assign the data in the right instance to the left
+         * 
+         * @param src 
+         * @return Text& 
+         */
         Text & operator=(const Text & src);
         /**
          * @brief Loads the font data file

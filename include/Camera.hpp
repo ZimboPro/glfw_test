@@ -73,8 +73,19 @@ class Camera
          * @param pitch 
          */
         Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+        /**
+         * @brief Construct a new Camera object
+         * 
+         * @param src The instance to copy
+         */
         Camera(const Camera & src);
         ~Camera();
+        /**
+         * @brief Assign the data in the right instance to the left
+         * 
+         * @param src 
+         * @return Camera& 
+         */
         Camera & operator=(const Camera & src);
         /**
          * @brief Get the View Matrix object produced by this instance of the camera
@@ -117,7 +128,13 @@ class Camera
          * @param height 
          */
         void SetShaderView(Shaders & shader, int width, int height);
-
+        /**
+         * @brief Move the camera in 3D world space
+         * 
+         * @param x 
+         * @param y 
+         * @param z 
+         */
         void Move(float &x, float &y, float &z);
 
     private:
