@@ -211,12 +211,6 @@ bool Window::closed()
     return glfwWindowShouldClose(this->_win) == 1;
 }
 
-void Window::clear() 
-{
-    int8_t r = 0;
-    Window::clear(r, r, r);
-}
-
 void Window::clear(int8_t r, int8_t g, int8_t b) 
 {
     float red = static_cast<float>(r) / 255.0f;

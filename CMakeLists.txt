@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.11)
 
 project(graphics)
 
+# set(default_build_type "Release")
 set(FETCHCONTENT_QUIET OFF)
 
 include(FetchContent)
@@ -194,10 +195,10 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_BINARY_DIR} CACHE PATH "" FORCE)
 
 include(CPack)
 
-# add_executable(
-#     og
-#     src/main.cpp
-#     src/Functions.cpp
-# )
+add_executable(
+    og
+    src/main.cpp
+    src/Functions.cpp
+)
 
-# target_link_libraries(og graphics)
+target_link_libraries(og graphics)

@@ -56,11 +56,6 @@ class Window
          */
         void close();
         /**
-         * @brief Clears the window to a black screen
-         * 
-         */
-        void clear() ;
-        /**
          * @brief Clears the window to the color specified
          * 
          * @param r - red on scale of 0 to 255
@@ -75,7 +70,7 @@ class Window
          * @param g - green on scale of 0 to 1
          * @param b - blue on scale of 0 to 1
          */
-        void clear(float r, float g, float b) ;
+        void clear(float r = 0.0f, float g = 0.0f, float b = 0.0f) ;
         /**
          * @brief Resize the window to the parameters specified
          * 
