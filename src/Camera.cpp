@@ -126,7 +126,7 @@ void Camera::SetShaderView(Shaders & shader, int width, int height)
     shader.setMat4("view", GetViewMatrix());
 }
 
-void Camera::Move(float &x, float &y, float &z)
+void Camera::Move(const float &x, const float &y, const float &z)
 {
     Position += glm::vec3(x, z, y);
 }

@@ -135,7 +135,7 @@ class Camera
          * @param y 
          * @param z 
          */
-        void Move(float &x, float &y, float &z = 0);
+        void Move(const float &x, const float &y, const float &z = 0);
 
     private:
         void updateCameraVectors();
