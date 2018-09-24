@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.11)
+cmake_minimum_required (VERSION 3.11 FATAL_ERROR)
 
 project(graphics)
 
@@ -84,7 +84,7 @@ FetchContent_Declare(
 
 FetchContent_GetProperties(freetype2)
 
-if(NOT freetype2)
+if(NOT freetype2_POPULATED)
   FetchContent_Populate(freetype2)
   add_subdirectory(${freetype2_SOURCE_DIR} ${freetype2_BINARY_DIR})
 endif()
@@ -115,30 +115,6 @@ if(NOT assimp_POPULATED)
 
   add_subdirectory(${assimp_SOURCE_DIR} ${assimp_BINARY_DIR})
 endif()
-
-#ffmpeg
-set(VIDEO FALSE)
-if (VIDEO)
-
-    FetchContent_Declare(
-        ffmpeg
-        if (APPLE)
-            URL https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-20180913-1b98bfb-macos64-static.zip
-        elseif(UNIX AND NOT APPLE)
-            URL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
-        else()
-            URL https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20180913-1b98bfb-win64-static.zip
-        endif()
-    )
-
-    FetchContent_GetProperties(ffmpeg)
-
-    if(NOT ffmpeg_POPULATED)
-        add_subdirectory(${ffmpeg_SOURCE_DIR})
-    endif()
-
-endif()
-
 
 # library
 add_library(

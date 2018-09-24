@@ -42,7 +42,7 @@ void SpriteRender::Disable()
     glDisable(GL_BLEND);
 }
 
-void SpriteRender::DrawSprite(TextureImages &texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color)
+void SpriteRender::DrawSprite(TextureImages &texture, glm::vec2 position, glm::vec2 size, GLfloat rotate)
 {
     Enable();
     // Prepare transformations
