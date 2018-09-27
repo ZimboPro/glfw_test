@@ -30,8 +30,6 @@ Model_Texture::~Model_Texture()
         glDeleteBuffers(1, &this->_meshes[i]->EBO);
         delete this->_meshes[i];
     }
-    // this->_meshes.clear();
-    // this->_textureLoaded.clear();
 }
 
 Model_Texture & Model_Texture::operator=(const Model_Texture & src)
@@ -76,6 +74,7 @@ void Model_Texture::loadModel(std::string path)
 
     processNode(scene->mRootNode, scene);
     this->_isLoaded = true;
+    getBox();
 }
 
 void Model_Texture::processNode(aiNode *node, const aiScene *scene)
@@ -240,4 +239,32 @@ unsigned int Model_Texture::TextureFromFile(const char *path, const std::string 
     }
 
     return textureID;
+}
+
+void checkValues(float & num1, float & num2, float value)
+{
+    if (value > num1)
+        num1 = value;
+    else if (value < num2)
+        num2 = value;
+}
+
+void Model_Texture::getBox()
+{
+    glm::vec3 pos = this->_meshes[0]->_vertices[0]._position;
+    this->_boundingBox.x1 = pos.x;
+    this->_boundingBox.x2 = pos.x;
+    this->_boundingBox.y1 = pos.y;
+    this->_boundingBox.y2 = pos.y;
+    this->_boundingBox.z1 = pos.z;
+    this->_boundingBox.z2 = pos.z;
+    for (size_t i = 0; i < this->_meshes.size(); i++)
+    {
+        for (size_t j = 0; j < this->_meshes[i]->_vertices.size(); j++)
+        {
+            checkValues(_boundingBox.x1, _boundingBox.x2, this->_meshes[i]->_vertices[j]._position.x);
+            checkValues(_boundingBox.y1, _boundingBox.y2, this->_meshes[i]->_vertices[j]._position.y);
+            checkValues(_boundingBox.z1, _boundingBox.z2, this->_meshes[i]->_vertices[j]._position.z);
+        }
+    }
 }

@@ -159,3 +159,30 @@ bool Model_Sprite::IsLoaded() const
 {
     return this->_Model_Texture != nullptr;
 }
+
+Rectangle Model_Sprite::getBoundingBox()
+{
+    Rectangle temp;
+    temp.x1 = this->_Model_Texture->_boundingBox.x1 * this->_scale.x + this->_position.x;
+    temp.x2 = this->_Model_Texture->_boundingBox.x2 * this->_scale.x + this->_position.x;
+    temp.y1 = this->_Model_Texture->_boundingBox.z1 * this->_scale.z + this->_position.z;
+    temp.y2 = this->_Model_Texture->_boundingBox.z2 * this->_scale.z + this->_position.z;
+    return temp;
+}
+
+bool valueInRange(int value, int min, int max)
+{
+    return (value >= min) && (value <= max);
+}
+
+bool Model_Sprite::isColliding(const Rectangle rect)
+{
+    Rectangle current = getBoundingBox();
+    bool xOverlap = valueInRange(current.x2, rect.x2, rect.x1) ||
+                    valueInRange(rect.x2, current.x2, current.x1);
+
+    bool yOverlap = valueInRange(current.y2, rect.y2, rect.y1) ||
+                    valueInRange(rect.y2, current.y2, current.y1);
+
+    return xOverlap && yOverlap;
+}

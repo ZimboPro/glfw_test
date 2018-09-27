@@ -169,6 +169,10 @@ class Model_Sprite
          */
         bool IsLoaded() const;
 
+        Rectangle getBoundingBox();
+
+        bool isColliding(const Rectangle rect);
+
 
     private:
         Model_Texture * _Model_Texture;

@@ -62,12 +62,14 @@ class Model_Texture
         std::vector<Mesh *> _meshes;
         std::vector<Texture> _textureLoaded;
         std::string _directory;
+        Box _boundingBox;
 
         void Draw(Shaders & shader);	
         void processNode(aiNode *node, const aiScene *scene);
         void processMesh(aiMesh *mesh, const aiScene *scene);
         void loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName, std::vector<Texture> & textures);
         unsigned int TextureFromFile(const char *path, const std::string &directory);
+        void getBox();
 
         friend class Model_Sprite;
         friend class ModelGroup;
