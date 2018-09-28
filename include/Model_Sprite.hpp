@@ -169,7 +169,7 @@ class Model_Sprite
          */
         bool IsLoaded() const;
 
-        Rectangle getBoundingBox();
+        Rectangle getBoundingRectangle();
 
         bool isColliding(const Rectangle rect);
 

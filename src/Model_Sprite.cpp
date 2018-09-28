@@ -160,7 +160,7 @@ bool Model_Sprite::IsLoaded() const
     return this->_Model_Texture != nullptr;
 }
 
-Rectangle Model_Sprite::getBoundingBox()
+Rectangle Model_Sprite::getBoundingRectangle()
 {
     Rectangle temp;
     temp.x1 = this->_Model_Texture->_boundingBox.x1 * this->_scale.x + this->_position.x;
@@ -177,7 +177,7 @@ bool valueInRange(int value, int min, int max)
 
 bool Model_Sprite::isColliding(const Rectangle rect)
 {
-    Rectangle current = getBoundingBox();
+    Rectangle current = getBoundingRectangle();
     bool xOverlap = valueInRange(current.x2, rect.x2, rect.x1) ||
                     valueInRange(rect.x2, current.x2, current.x1);
 
